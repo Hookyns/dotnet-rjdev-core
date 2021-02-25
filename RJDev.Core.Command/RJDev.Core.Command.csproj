@@ -4,10 +4,13 @@
 		<LangVersion>9</LangVersion>
 		<TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
 		<Nullable>enable</Nullable>
-		<Title>RJDev.Core.Command</Title>
+		<PackageId>RJDev.Core.Command</PackageId>
+		<Version>1.0.0</Version>
 		<Authors>Roman Jámbor</Authors>
+		<Company>Roman Jámbor</Company>
 		<Description>Command module of RJDev.Core library
-Command is simple simple pattern of executable classes with injected dependencies and no output.</Description>
+Command is simple pattern of executable classes with injected dependencies and no output.</Description>
+		<RepositoryUrl>https://github.com/Hookyns/dotnet-rjdev-core</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

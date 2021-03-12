@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,10 +36,36 @@ namespace RJDev.Core.Command
         /// <inheritdoc />
         public ICommand GetCommand(string name, Type? belongsTo)
         {
-            CmdInfo cmdInfo = this.cmdTypes.Value
-                .First(x => x.Attr.Name == name && x.Attr.BelongsTo == belongsTo);
+            CmdInfo? cmdInfo = this.cmdTypes.Value
+                .FirstOrDefault(x => x.Attr.Name == name && x.Attr.BelongsTo == belongsTo);
+
+            if (cmdInfo == null)
+            {
+                return this.GetNullCommandInstance(name);
+            }
 
             return this.GetCommandInstance(cmdInfo);
+        }
+
+        /// <inheritdoc />
+        public bool TryGetCommand(string name, [MaybeNullWhen(false)] out ICommand command)
+        {
+            return this.TryGetCommand(name, null, out command);
+        }
+
+        /// <inheritdoc />
+        public bool TryGetCommand(string name, Type? belongsTo, [MaybeNullWhen(false)] out ICommand command)
+        {
+            CmdInfo? cmdInfo = this.cmdTypes.Value.FirstOrDefault(x => x.Attr.Name == name && x.Attr.BelongsTo == belongsTo);
+
+            if (cmdInfo == null)
+            {
+                command = null;
+                return false;
+            }
+
+            command = this.GetCommandInstance(cmdInfo);
+            return true;
         }
 
         /// <inheritdoc />
@@ -54,6 +81,26 @@ namespace RJDev.Core.Command
         }
 
         /// <summary>
+        /// Returns instance of null command
+        /// </summary>
+        /// <param name="requestedCommandName"></param>
+        /// <returns></returns>
+        private ICommand GetNullCommandInstance(string requestedCommandName)
+        {
+            INullCommandFactory? nullCommandFactory = this.serviceProvider.GetService<INullCommandFactory>();
+
+            if (nullCommandFactory != null)
+            {
+                return nullCommandFactory.Create();
+            }
+
+            return new NullCommand()
+            {
+                RequestedCommandName = requestedCommandName
+            };
+        }
+
+        /// <summary>
         /// Return instance of Command described by given info object
         /// </summary>
         /// <param name="cmdInfo"></param>
@@ -61,7 +108,7 @@ namespace RJDev.Core.Command
         private ICommand GetCommandInstance(CmdInfo cmdInfo)
         {
             Type commandFinderType = typeof(ICommandFinder);
-            
+
             bool requiresCommandFinder = cmdInfo.Type.GetConstructors()
                 .Any(constructorInfo => constructorInfo
                     .GetParameters()

@@ -12,4 +12,8 @@
 		<RepositoryUrl>https://github.com/Hookyns/dotnet-rjdev-core</RepositoryUrl>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <EmbeddedResource Include="README.md" />
+	</ItemGroup>
+
 </Project>

@@ -4,17 +4,19 @@
 		<LangVersion>9</LangVersion>
 		<TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
 		<Nullable>enable</Nullable>
-		<PackageId>RJDev.Core.Command</PackageId>
-		<Version>1.0.1</Version>
+		<PackageId>RJDev.Core.Extensibility</PackageId>
+		<Version>1.0.0</Version>
 		<Authors>Roman Jámbor</Authors>
 		<Company>Roman Jámbor</Company>
-		<Description>Command module of RJDev.Core library
-Command is simple pattern of executable classes with injected dependencies and no output.</Description>
+		<Description>Extensibility module of RJDev.Core library.</Description>
 		<RepositoryUrl>https://github.com/Hookyns/dotnet-rjdev-core</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+	  <PackageReference Include="RJDev.Core.Reflection" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

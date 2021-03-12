@@ -14,6 +14,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.DependencyInject
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Reflection.Tests", "RJDev.Core.Reflection.Tests\RJDev.Core.Reflection.Tests.csproj", "{E5095ED9-D249-46F1-833F-B2E605CBFC6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Extensibility", "RJDev.Core.Extensibility\RJDev.Core.Extensibility.csproj", "{886FF412-B94E-4B94-AF53-8AFB6EFE608B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Extensibility.Tests", "RJDev.Core.Extensibility.Tests\RJDev.Core.Extensibility.Tests.csproj", "{6CA21C3A-E9E7-400C-A182-039FEEB6863C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Extensibility.Tests.TestAddonProj", "RJDev.Core.Extensibility.Tests.TestAddonProj\RJDev.Core.Extensibility.Tests.TestAddonProj.csproj", "{E2FD787E-33E0-4BE4-BDFB-F4ED304B65E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +54,17 @@ Global
 		{E5095ED9-D249-46F1-833F-B2E605CBFC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5095ED9-D249-46F1-833F-B2E605CBFC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5095ED9-D249-46F1-833F-B2E605CBFC6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{886FF412-B94E-4B94-AF53-8AFB6EFE608B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{886FF412-B94E-4B94-AF53-8AFB6EFE608B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{886FF412-B94E-4B94-AF53-8AFB6EFE608B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{886FF412-B94E-4B94-AF53-8AFB6EFE608B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CA21C3A-E9E7-400C-A182-039FEEB6863C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CA21C3A-E9E7-400C-A182-039FEEB6863C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CA21C3A-E9E7-400C-A182-039FEEB6863C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA21C3A-E9E7-400C-A182-039FEEB6863C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2FD787E-33E0-4BE4-BDFB-F4ED304B65E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2FD787E-33E0-4BE4-BDFB-F4ED304B65E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2FD787E-33E0-4BE4-BDFB-F4ED304B65E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2FD787E-33E0-4BE4-BDFB-F4ED304B65E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

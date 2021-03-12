@@ -84,6 +84,65 @@ namespace RJDev.Core.Command.Tests
                 );
         }
 
+        [Fact]
+        public void NullCommand()
+        {
+            IServiceProvider provider = GetServiceProvider();
+            ICommandFinder finder = GetCommandFinder(provider);
+            string someCommandWhichRlyDonTExists = "some command which rly don't exists";
+            ICommand command = finder.GetCommand(someCommandWhichRlyDonTExists);
+
+            Assert.IsType<NullCommand>(command);
+            Assert.Equal(string.Empty, command.GetDetails());
+            Assert.Equal(someCommandWhichRlyDonTExists, ((NullCommand)command).RequestedCommandName);
+
+            try
+            {
+                command.Execute(true, string.Empty, new object(), 1, 1.1);
+                Assert.True(true);
+            }
+            catch (Exception)
+            {
+                Assert.True(false);
+            }
+        }
+
+        [Fact]
+        public void TryGetCommand()
+        {
+            IServiceProvider provider = GetServiceProvider();
+            ICommandFinder finder = GetCommandFinder(provider);
+
+            if (finder.TryGetCommand("say", out ICommand? sayCommand))
+            {
+                Assert.True(true);
+                Assert.NotNull(sayCommand);
+            }
+            else
+            {
+                Assert.True(false);
+                Assert.Null(sayCommand);
+            }
+        }
+
+        [Fact]
+        public void TryGetBelongingCommand()
+        {
+            IServiceProvider provider = GetServiceProvider();
+            ICommandFinder finder = GetCommandFinder(provider);
+
+            if (finder.TryGetCommand("list", typeof(SpecificCommandSet), out ICommand? listCommand))
+            {
+                Assert.True(true);
+                Assert.NotNull(listCommand);
+            }
+            else
+            {
+                Assert.True(false);
+                Assert.Null(listCommand);
+            }
+        }
+
         /// <summary>
         /// Return command finder
         /// </summary>

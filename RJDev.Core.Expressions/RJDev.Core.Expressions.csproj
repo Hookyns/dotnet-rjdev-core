@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>9</LangVersion>
+		<Nullable>enable</Nullable>
+		<Version>1.0.1</Version>
+		<Authors>Roman Jámbor</Authors>
+		<Company>Roman Jámbor</Company>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="README.md" />
+	</ItemGroup>
+
+</Project>

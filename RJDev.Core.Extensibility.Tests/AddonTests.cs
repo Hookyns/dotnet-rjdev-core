@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RJDev.Core.Extensibility.Tests.TestAddonProj;
+using RJDev.Core.Extensibility.Tests.TestAddonProj.Services;
 using Xunit;
 
 namespace RJDev.Core.Extensibility.Tests
 {
-    public class UnitTest1
+    public class AddonTests
     {
         [Fact]
         public void AddonConfigureServices()
@@ -30,7 +30,7 @@ namespace RJDev.Core.Extensibility.Tests
                 await host.StartAsync();
 
                 // Service from addon registered and resolved
-                ISomeService someService = host.Services.GetService<ISomeService>();
+                ISomeService someService = host.Services.GetRequiredService<ISomeService>();
                 Assert.NotNull(someService);
                 
                 // Configure method called

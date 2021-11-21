@@ -44,29 +44,28 @@ namespace RJDev.Core.Extensibility
         }
 
         /// <summary>
-        /// Run <see cref="IAddon.Configure"/> methods
+        /// Run Addons.
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            return Task.Run(
-                () =>
+            foreach (IAddon addon in this.addons)
+            {
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    foreach (IAddon addon in this.addons)
-                    {
-                        try
-                        {
-                            addon.Configure(this.hostEnvironment, this.configuration, this.serviceProvider);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception($"'Configure' method call of addon '{addon.GetType().FullName}' failed.", ex);
-                        }
-                    }
-                },
-                cancellationToken
-            );
+                    break;
+                }
+
+                try
+                {
+                    await addon.Execute(this.hostEnvironment, this.configuration, this.serviceProvider, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"'Start' method call of addon '{addon.GetType().FullName}' failed.", ex);
+                }
+            }
         }
 
         /// <inheritdoc />

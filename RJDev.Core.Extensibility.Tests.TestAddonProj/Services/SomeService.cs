@@ -1,4 +1,4 @@
-namespace RJDev.Core.Extensibility.Tests.TestAddonProj
+namespace RJDev.Core.Extensibility.Tests.TestAddonProj.Services
 {
     public class SomeService : ISomeService
     {

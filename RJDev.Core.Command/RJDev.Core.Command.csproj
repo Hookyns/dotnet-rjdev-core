@@ -18,7 +18,7 @@ Command is simple pattern of executable classes with injected dependencies and n
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="README.md" />
+	  <None Include="README.md" />
 	</ItemGroup>
 
 </Project>

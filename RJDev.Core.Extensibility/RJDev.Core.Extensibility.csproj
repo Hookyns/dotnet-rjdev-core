@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<PackageId>RJDev.Core.Extensibility</PackageId>
-		<Version>2.0.0</Version>
+		<Version>2.0.1</Version>
 		<Authors>Roman Jámbor</Authors>
 		<Company>Roman Jámbor</Company>
 		<Description>Extensibility module of RJDev.Core library.</Description>
@@ -13,7 +13,7 @@
 	  <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
-	  <PackageReference Include="RJDev.Core.Reflection" Version="1.0.0" />
+	  <PackageReference Include="RJDev.Core.Reflection" Version="1.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

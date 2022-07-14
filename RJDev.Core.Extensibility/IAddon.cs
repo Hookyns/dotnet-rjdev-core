@@ -13,8 +13,12 @@ namespace RJDev.Core.Extensibility
         /// </summary>
         /// <param name="hostBuilder"></param>
         void Configure(IHostBuilder hostBuilder)
+#if NETSTANDARD2_0
+            ;
+#else
         {
         }
+#endif
 
         /// <summary>
         /// Execute the Addon's runtime part.
@@ -23,6 +27,11 @@ namespace RJDev.Core.Extensibility
         /// <param name="configuration">Containing the merged configuration of the application and the <see cref="IHost" />.</param>
         /// <param name="serviceProvider">Service provider</param>
         /// <param name="cancellationToken"></param>
-        Task Execute(IHostEnvironment hostingEnvironment, IConfiguration configuration, IServiceProvider serviceProvider, CancellationToken cancellationToken) => Task.CompletedTask;
+        Task Execute(IHostEnvironment hostingEnvironment, IConfiguration configuration, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+#if NETSTANDARD2_0
+            ;
+#else
+             => Task.CompletedTask;
+#endif
     }
 }

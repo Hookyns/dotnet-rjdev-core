@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+#if !NETSTANDARD2_0
 using System.Runtime.Loader;
+#endif
 
 namespace RJDev.Core.Reflection.AssemblyFinder
 {
     public class DefaultAssemblyFinder : IAssemblyFinder
     {
         /// <summary>
-        /// List of assembly paths its loading failed
+        /// List of assembly paths its loading failed.
         /// </summary>
         private readonly List<(string, Exception)> failedAssemblyPaths = new();
 
         /// <inheritdoc />
         public IEnumerable<Assembly> GetAssemblies(string searchPattern)
         {
-            IEnumerable<string>? assembliesPaths = Directory.GetFiles(AppContext.BaseDirectory, searchPattern, SearchOption.AllDirectories)
+            IEnumerable<string> assembliesPaths = Directory.GetFiles(AppContext.BaseDirectory, searchPattern, SearchOption.AllDirectories)
                 .Where(fileName => fileName.EndsWith(".dll") || fileName.EndsWith(".exe"));
 
             // List of returned assemblies path; to make it distinct cuz of Ref. assemblies.
-            HashSet<string>? returnedAssemblies = new();
+            HashSet<string> returnedAssemblies = new();
 
             Assembly? assembly = null;
 
@@ -29,7 +31,11 @@ namespace RJDev.Core.Reflection.AssemblyFinder
             {
                 try
                 {
+#if NETSTANDARD2_0
+                    assembly = Assembly.LoadFrom(path);
+#else
                     assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
+#endif
                 }
                 catch (Exception ex)
                 {
@@ -51,7 +57,7 @@ namespace RJDev.Core.Reflection.AssemblyFinder
         }
 
         /// <summary>
-        /// Return true if assembly is from "ref" folder
+        /// Return true if assembly is from "ref" folder.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>

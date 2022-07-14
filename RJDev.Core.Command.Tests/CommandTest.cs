@@ -79,8 +79,8 @@ namespace RJDev.Core.Command.Tests
             
             Assert.Collection(
                 commands.OrderBy(x => x),
-                cmdDetails => Assert.Equal("Usage: bye", cmdDetails[..10]),
-                cmdDetails => Assert.Equal("Usage: say", cmdDetails[..10])
+                cmdDetails => Assert.Equal("Usage: bye", cmdDetails.Substring(0, 10)),
+                cmdDetails => Assert.Equal("Usage: say", cmdDetails.Substring(0, 10))
                 );
         }
 

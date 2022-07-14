@@ -1,9 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<LangVersion>9</LangVersion>
-		<TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 

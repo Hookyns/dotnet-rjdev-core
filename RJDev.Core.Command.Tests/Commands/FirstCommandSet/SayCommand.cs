@@ -8,7 +8,7 @@ namespace RJDev.Core.Command.Tests.Commands.FirstCommandSet
         /// <inheritdoc />
         public void Execute(params object[] args)
         {
-            Console.WriteLine(string.Join(' ', args));
+            Console.WriteLine(string.Join(" ", args));
         }
 
         /// <inheritdoc />

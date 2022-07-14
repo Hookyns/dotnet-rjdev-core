@@ -20,6 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Extensibility.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Extensibility.Tests.TestAddonProj", "RJDev.Core.Extensibility.Tests.TestAddonProj\RJDev.Core.Extensibility.Tests.TestAddonProj.csproj", "{E2FD787E-33E0-4BE4-BDFB-F4ED304B65E8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{82064BE8-1427-4C7C-B677-CA75E1ABB0DF}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -48,13 +48,24 @@ namespace RJDev.Core.Command
         }
 
         /// <inheritdoc />
-        public bool TryGetCommand(string name, [MaybeNullWhen(false)] out ICommand command)
+        public bool TryGetCommand(
+            string name, 
+#if !NETSTANDARD2_0
+            [MaybeNullWhen(false)] 
+#endif
+            out ICommand command)
         {
             return this.TryGetCommand(name, null, out command);
         }
 
         /// <inheritdoc />
-        public bool TryGetCommand(string name, Type? belongsTo, [MaybeNullWhen(false)] out ICommand command)
+        public bool TryGetCommand(
+            string name, 
+            Type? belongsTo, 
+#if !NETSTANDARD2_0
+            [MaybeNullWhen(false)] 
+#endif
+            out ICommand command)
         {
             CmdInfo? cmdInfo = this.cmdTypes.Value.FirstOrDefault(x => x.Attr.Name == name && x.Attr.BelongsTo == belongsTo);
 

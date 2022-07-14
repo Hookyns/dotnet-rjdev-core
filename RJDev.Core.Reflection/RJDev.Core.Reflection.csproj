@@ -1,9 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<LangVersion>9</LangVersion>
-		<TargetFrameworks>net5.0;netcoreapp3.1</TargetFrameworks>
-		<Nullable>enable</Nullable>
 		<PackageId>RJDev.Core.Reflection</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Roman Jámbor</Authors>
@@ -13,7 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="README.md" />
+	  <None Include="README.md" />
 	</ItemGroup>
 
 </Project>

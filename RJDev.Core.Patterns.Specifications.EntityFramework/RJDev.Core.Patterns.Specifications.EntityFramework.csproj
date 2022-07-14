@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.1</TargetFrameworks>
+		<Version>1.0.0</Version>
+		<Authors>Roman Jámbor</Authors>
+		<Company>Roman Jámbor</Company>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.3" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(TargetFramework)' != 'net6.0' ">
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="RJDev.Core.Patterns.Specifications" Version="1.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="README.md" />
+	</ItemGroup>
+
+</Project>

@@ -7,7 +7,6 @@
 		<Company>Roman Jámbor</Company>
 		<Description>Command module of RJDev.Core library
 Command is simple pattern of executable classes with injected dependencies and no output.</Description>
-		<RepositoryUrl>https://github.com/Hookyns/dotnet-rjdev-core</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

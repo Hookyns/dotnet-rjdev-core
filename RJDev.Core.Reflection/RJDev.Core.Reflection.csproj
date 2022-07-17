@@ -6,7 +6,6 @@
 		<Authors>Roman Jámbor</Authors>
 		<Company>Roman Jámbor</Company>
 		<Description>Reflection package of RJDev.Core library</Description>
-		<RepositoryUrl>https://github.com/Hookyns/dotnet-rjdev-core</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

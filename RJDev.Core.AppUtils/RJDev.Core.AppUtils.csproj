@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<PackageId>RJDev.Core.AppUtils</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Roman Jámbor</Authors>
+		<Company>Roman Jámbor</Company>
+		<Description>Module of RJDev.Core library with application utilities.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="RJDev.Core.Reflection" Version="1.0.1" />
+	</ItemGroup>
+
+</Project>

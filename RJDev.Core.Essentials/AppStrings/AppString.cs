@@ -1,6 +1,6 @@
 using System;
 
-namespace RJDev.Core.AppUtils.AppStrings
+namespace RJDev.Core.Essentials.AppStrings
 {
     /// <summary>
     /// Object representing string inside an application.

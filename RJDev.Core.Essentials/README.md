@@ -1,4 +1,4 @@
-# RJDev.Core.AppUtils
+# RJDev.Core.Essentials
 Application utils.
 
 ## AppString

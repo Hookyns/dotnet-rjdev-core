@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace RJDev.Core.AppUtils.AppStrings
+namespace RJDev.Core.Essentials.AppStrings
 {
     /// <summary>
     /// Interface for the service looking for all the statically declared <see cref="AppString"/> in application

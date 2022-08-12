@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using RJDev.Core.Reflection.AssemblyFinder;
 
-namespace RJDev.Core.AppUtils.AppStrings
+namespace RJDev.Core.Essentials.AppStrings
 {
     public class AppStringFinder : IAppStringFinder
     {

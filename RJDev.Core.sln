@@ -31,7 +31,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Patterns.Specifi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Patterns.Specifications.EntityFramework", "RJDev.Core.Patterns.Specifications.EntityFramework\RJDev.Core.Patterns.Specifications.EntityFramework.csproj", "{5D46C974-4865-4F13-AB68-9CD2D58DE7F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.AppUtils", "RJDev.Core.AppUtils\RJDev.Core.AppUtils.csproj", "{4EC3159A-BD98-4F96-9A77-FCF0CE9EBCF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Essentials", "RJDev.Core.Essentials\RJDev.Core.Essentials.csproj", "{4EC3159A-BD98-4F96-9A77-FCF0CE9EBCF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Domain", "RJDev.Core.Domain\RJDev.Core.Domain.csproj", "{A9574EDE-C0B0-48EC-ADA7-10750DBF1A4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RJDev.Core.Essentials.Tests", "RJDev.Core.Essentials.Tests\RJDev.Core.Essentials.Tests.csproj", "{E2D28754-3B25-4D02-814B-DAFD6A2A8D1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,5 +99,13 @@ Global
 		{4EC3159A-BD98-4F96-9A77-FCF0CE9EBCF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EC3159A-BD98-4F96-9A77-FCF0CE9EBCF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EC3159A-BD98-4F96-9A77-FCF0CE9EBCF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9574EDE-C0B0-48EC-ADA7-10750DBF1A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9574EDE-C0B0-48EC-ADA7-10750DBF1A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9574EDE-C0B0-48EC-ADA7-10750DBF1A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9574EDE-C0B0-48EC-ADA7-10750DBF1A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2D28754-3B25-4D02-814B-DAFD6A2A8D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D28754-3B25-4D02-814B-DAFD6A2A8D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D28754-3B25-4D02-814B-DAFD6A2A8D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D28754-3B25-4D02-814B-DAFD6A2A8D1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

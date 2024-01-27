@@ -12,7 +12,7 @@ namespace RJDev.Core.Command
         /// <summary>
         /// Service provider instance
         /// </summary>
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
         /// Ctor
@@ -20,13 +20,13 @@ namespace RJDev.Core.Command
         /// <param name="serviceProvider"></param>
         public CommandFinderFactory(IServiceProvider serviceProvider)
         {
-            this.serviceProvider = serviceProvider;
+            _serviceProvider = serviceProvider;
         }
 
         /// <inheritdoc />
         public ICommandFinder CreateCommandFinder(params Assembly[] assemblies)
         {
-            return ActivatorUtilities.CreateInstance<CommandFinder>(this.serviceProvider, (object)assemblies);
+            return ActivatorUtilities.CreateInstance<CommandFinder>(_serviceProvider, (object)assemblies);
         }
     }
 }

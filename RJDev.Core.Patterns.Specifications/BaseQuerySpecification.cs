@@ -24,10 +24,10 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseMappedQuerySpecification<TEntity, TTarget>
             {
-                Criteria = this.Criteria,
-                OrderBy = this.OrderBy,
-                Skip = this.Skip,
-                Take = this.Take,
+                Criteria = Criteria,
+                OrderBy = OrderBy,
+                Skip = Skip,
+                Take = Take,
                 Selector = selector,
                 PostAction = postAction
             };
@@ -38,10 +38,10 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseMappedQuerySpecification<TEntity, TEntity>
             {
-                Criteria = this.Criteria,
-                OrderBy = this.OrderBy,
-                Skip = this.Skip,
-                Take = this.Take,
+                Criteria = Criteria,
+                OrderBy = OrderBy,
+                Skip = Skip,
+                Take = Take,
                 Selector = entity => entity
             };
         }
@@ -49,14 +49,14 @@ namespace RJDev.Core.Patterns.Specifications
         /// <inheritdoc cref="IQuerySpecification{TEntity}.And(RJDev.Core.Patterns.Specifications.IQuerySpecification{TEntity})" />
         public override IQuerySpecification<TEntity> And(IQuerySpecification<TEntity> specification)
         {
-            this.AssertLimits(specification.Skip, specification.Take, specification.GetType());
+            AssertLimits(specification.Skip, specification.Take, specification.GetType());
 
             return new BaseQuerySpecification<TEntity>()
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = MergeOrders(this.OrderBy, specification.OrderBy),
-                Skip = specification.Skip ?? this.Skip,
-                Take = specification.Take ?? this.Take
+                Criteria = ResolveCriteria(specification),
+                OrderBy = MergeOrders(OrderBy, specification.OrderBy),
+                Skip = specification.Skip ?? Skip,
+                Take = specification.Take ?? Take
             };
         }
 
@@ -64,14 +64,14 @@ namespace RJDev.Core.Patterns.Specifications
         public override IMappedQuerySpecification<TEntity, TTarget> And<TTarget>(IMappedQuerySpecification<TEntity, TTarget> specification)
             where TTarget : class
         {
-            this.AssertLimits(specification.Skip, specification.Take, specification.GetType());
+            AssertLimits(specification.Skip, specification.Take, specification.GetType());
 
             return new BaseMappedQuerySpecification<TEntity, TTarget>()
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = MergeOrders(this.OrderBy, specification.OrderBy),
-                Skip = specification.Skip ?? this.Skip,
-                Take = specification.Take ?? this.Take,
+                Criteria = ResolveCriteria(specification),
+                OrderBy = MergeOrders(OrderBy, specification.OrderBy),
+                Skip = specification.Skip ?? Skip,
+                Take = specification.Take ?? Take,
                 Selector = specification.Selector,
                 PostAction = specification.PostAction
             };
@@ -82,10 +82,10 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseQuerySpecification<TEntity>()
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = this.OrderBy,
-                Skip = this.Skip,
-                Take = this.Take
+                Criteria = ResolveCriteria(specification),
+                OrderBy = OrderBy,
+                Skip = Skip,
+                Take = Take
             };
         }
 
@@ -114,27 +114,27 @@ namespace RJDev.Core.Patterns.Specifications
         /// <exception cref="InvalidOperationException"></exception>
         protected void AssertLimits(int? skip, int? take, Type type)
         {
-            if (this.Skip.HasValue && skip.HasValue && this.Skip != skip)
+            if (Skip.HasValue && skip.HasValue && Skip != skip)
             {
                 throw new InvalidOperationException("Unable to merge two specifications with different 'Skip' values." +
-                    $"{Environment.NewLine}Left specification '{this.GetType().FullName}' = {this.Skip}, right specification '{type.FullName}' = {skip}.");
+                    $"{Environment.NewLine}Left specification '{GetType().FullName}' = {Skip}, right specification '{type.FullName}' = {skip}.");
             }
 
-            if (this.Take.HasValue && take.HasValue && this.Take != take)
+            if (Take.HasValue && take.HasValue && Take != take)
             {
                 throw new InvalidOperationException("Unable to merge two specifications with different 'Take' values." +
-                    $"{Environment.NewLine}Left specification '{this.GetType().FullName}' = {this.Take}, right specification '{type.FullName}' = {take}.");
+                    $"{Environment.NewLine}Left specification '{GetType().FullName}' = {Take}, right specification '{type.FullName}' = {take}.");
             }
         }
 
         protected void OrderByAsc(Expression<Func<TEntity, object>> expression)
         {
-            this.OrderBy.Add((SpecificationSortType.Ascending, expression));
+            OrderBy.Add((SpecificationSortType.Ascending, expression));
         }
 
         protected void OrderByDesc(Expression<Func<TEntity, object>> expression)
         {
-            this.OrderBy.Add((SpecificationSortType.Descending, expression));
+            OrderBy.Add((SpecificationSortType.Descending, expression));
         }
     }
 }

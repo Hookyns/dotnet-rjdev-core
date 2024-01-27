@@ -10,7 +10,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <inheritdoc />
         public override ISpecification<TEntity> And(ISpecification<TEntity> specification)
         {
-            Expression<Func<TEntity, bool>>? criteria = this.ResolveCriteria(specification);
+            Expression<Func<TEntity, bool>>? criteria = ResolveCriteria(specification);
 
             return new BaseSpecification<TEntity>()
             {
@@ -21,7 +21,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <inheritdoc />
         public override IQuerySpecification<TEntity> And(IQuerySpecification<TEntity> specification)
         {
-            Expression<Func<TEntity, bool>>? criteria = this.ResolveCriteria(specification);
+            Expression<Func<TEntity, bool>>? criteria = ResolveCriteria(specification);
 
             return new BaseQuerySpecification<TEntity>()
             {
@@ -35,7 +35,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <inheritdoc />
         public override IMappedQuerySpecification<TEntity, TTarget> And<TTarget>(IMappedQuerySpecification<TEntity, TTarget> specification) where TTarget : class
         {
-            Expression<Func<TEntity, bool>>? criteria = this.ResolveCriteria(specification);
+            Expression<Func<TEntity, bool>>? criteria = ResolveCriteria(specification);
 
             return new BaseMappedQuerySpecification<TEntity, TTarget>()
             {
@@ -50,11 +50,11 @@ namespace RJDev.Core.Patterns.Specifications
 
         protected Expression<Func<TEntity, bool>>? ResolveCriteria(ISpecification<TEntity> specification)
         {
-            Expression<Func<TEntity, bool>>? criteria = this.Criteria ?? specification.Criteria;
+            Expression<Func<TEntity, bool>>? criteria = Criteria ?? specification.Criteria;
 
-            if (this.Criteria != null && specification.Criteria != null)
+            if (Criteria != null && specification.Criteria != null)
             {
-                criteria = new LogicalPredicateBuilder<TEntity>(this.Criteria).And(specification.Criteria).Build();
+                criteria = new LogicalPredicateBuilder<TEntity>(Criteria).And(specification.Criteria).Build();
             }
 
             return criteria;
@@ -62,11 +62,11 @@ namespace RJDev.Core.Patterns.Specifications
 
         protected Expression<Func<TEntity, bool>>? ResolveCriteria(IQuerySpecification<TEntity> specification)
         {
-            Expression<Func<TEntity, bool>>? criteria = this.Criteria ?? specification.Criteria;
+            Expression<Func<TEntity, bool>>? criteria = Criteria ?? specification.Criteria;
 
-            if (this.Criteria != null && specification.Criteria != null)
+            if (Criteria != null && specification.Criteria != null)
             {
-                criteria = new LogicalPredicateBuilder<TEntity>(this.Criteria).And(specification.Criteria).Build();
+                criteria = new LogicalPredicateBuilder<TEntity>(Criteria).And(specification.Criteria).Build();
             }
 
             return criteria;

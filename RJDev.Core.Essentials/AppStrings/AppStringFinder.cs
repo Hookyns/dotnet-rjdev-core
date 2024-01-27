@@ -8,12 +8,12 @@ namespace RJDev.Core.Essentials.AppStrings
 {
     public class AppStringFinder : IAppStringFinder
     {
-        private readonly IAssemblyFinder assemblyFinder;
+        private readonly IAssemblyFinder _assemblyFinder;
 
-        private List<AppString> appStrings = new();
-        private Dictionary<string, AppString> appStringsMap = new();
+        private List<AppString> _appStrings = new();
+        private Dictionary<string, AppString> _appStringsMap = new();
 
-        private bool initiated;
+        private bool _initiated;
 
         /// <summary>
         /// Ctor
@@ -21,41 +21,41 @@ namespace RJDev.Core.Essentials.AppStrings
         /// <param name="assemblyFinder"></param>
         public AppStringFinder(IAssemblyFinder assemblyFinder)
         {
-            this.assemblyFinder = assemblyFinder;
+            _assemblyFinder = assemblyFinder;
         }
 
         private void EnsureInit(Assembly[] assemblies)
         {
-            if (this.initiated)
+            if (_initiated)
             {
                 return;
             }
 
-            this.appStrings = this.GetAll(assemblies).ToList();
-            this.appStringsMap = this.appStrings.ToDictionary(x => x.Id, x => x);
-            this.initiated = true;
+            _appStrings = GetAll(assemblies).ToList();
+            _appStringsMap = _appStrings.ToDictionary(x => x.Id, x => x);
+            _initiated = true;
         }
 
         /// <inheritdoc />
         public IEnumerable<AppString> GetAllAppStrings(bool cached = true, Assembly[]? assemblies = null)
         {
-            assemblies ??= this.assemblyFinder.GetAssemblies("*").ToArray();
+            assemblies ??= _assemblyFinder.GetAssemblies("*").ToArray();
 
             if (cached)
             {
-                this.EnsureInit(assemblies);
-                return this.appStrings;
+                EnsureInit(assemblies);
+                return _appStrings;
             }
 
-            return this.GetAll(assemblies);
+            return GetAll(assemblies);
         }
 
         /// <inheritdoc />
         public AppString GetAppString(string id, Assembly[]? assemblies = null)
         {
-            assemblies ??= this.assemblyFinder.GetAssemblies("*").ToArray();
-            this.EnsureInit(assemblies);
-            return this.appStringsMap.TryGetValue(id, out AppString? appString) ? appString : new AppString(string.Empty, string.Empty);
+            assemblies ??= _assemblyFinder.GetAssemblies("*").ToArray();
+            EnsureInit(assemblies);
+            return _appStringsMap.TryGetValue(id, out AppString? appString) ? appString : new AppString(string.Empty, string.Empty);
         }
 
         private IEnumerable<AppString> GetAll(Assembly[] assemblies)

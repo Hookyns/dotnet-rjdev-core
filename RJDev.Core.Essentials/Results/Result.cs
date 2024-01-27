@@ -8,13 +8,13 @@ namespace RJDev.Core.Essentials.Results
     public class Result : IResult
     {
         private static readonly Result OkResultCached = new(true);
-        private bool ok;
+        private bool _ok;
 
         /// <inheritdoc />
         public virtual bool Ok
         {
-            get => this.ok;
-            protected set => this.ok = value;
+            get => _ok;
+            protected set => _ok = value;
         }
 
         /// <inheritdoc />
@@ -26,7 +26,7 @@ namespace RJDev.Core.Essentials.Results
         /// <param name="ok"></param>
         public Result(bool ok)
         {
-            this.ok = ok;
+            _ok = ok;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace RJDev.Core.Essentials.Results
         {
             foreach (AppString resultMessage in errors)
             {
-                this.Add(resultMessage);
+                Add(resultMessage);
             }
         }
 
@@ -94,34 +94,34 @@ namespace RJDev.Core.Essentials.Results
         /// <inheritdoc />
         public virtual IResult<TValue> Cast<TValue>()
         {
-            Result<TValue> result = new(this.Ok, default);
-            result.CopyErrors(this.Errors);
+            Result<TValue> result = new(Ok, default);
+            result.CopyErrors(Errors);
             return result;
         }
 
         public IResult<TNewValue> Cast<TNewValue>(TNewValue newValue)
         {
-            Result<TNewValue> result = new(this.Ok, newValue);
-            result.CopyErrors(this.Errors);
+            Result<TNewValue> result = new(Ok, newValue);
+            result.CopyErrors(Errors);
             return result;
         }
 
         /// <inheritdoc />
         public IResult Then(Func<IResult> action)
         {
-            return !this.Ok ? this : action.Invoke();
+            return !Ok ? this : action.Invoke();
         }
 
         /// <inheritdoc />
         public IResult Then(Func<IResult, IResult> action)
         {
-            return !this.Ok ? this : action.Invoke(this);
+            return !Ok ? this : action.Invoke(this);
         }
 
         /// <inheritdoc />
         public async Task<IResult> Then(Func<Task<IResult>> action)
         {
-            return !this.Ok
+            return !Ok
                 ? this
                 : await action.Invoke();
         }
@@ -129,7 +129,7 @@ namespace RJDev.Core.Essentials.Results
         /// <inheritdoc />
         public async Task<IResult> Then(Func<IResult, Task<IResult>> action)
         {
-            return !this.Ok
+            return !Ok
                 ? this
                 : await action.Invoke(this);
         }
@@ -137,16 +137,16 @@ namespace RJDev.Core.Essentials.Results
         /// <inheritdoc />
         public async Task<IResult<TValue>> Then<TValue>(Func<Task<IResult<TValue>>> action)
         {
-            return !this.Ok
-                ? this.Cast<TValue>()
+            return !Ok
+                ? Cast<TValue>()
                 : await action.Invoke();
         }
 
         /// <inheritdoc />
         public async Task<IResult<TValue>> Then<TValue>(Func<IResult, Task<IResult<TValue>>> action)
         {
-            return !this.Ok
-                ? this.Cast<TValue>()
+            return !Ok
+                ? Cast<TValue>()
                 : await action.Invoke(this);
         }
 
@@ -156,12 +156,12 @@ namespace RJDev.Core.Essentials.Results
         /// <param name="error"></param>
         public Result Add(AppString error)
         {
-            if (this.Ok)
+            if (Ok)
             {
                 throw new InvalidOperationException("You cannot add an error into positive result.");
             }
 
-            this.Errors.Add(error);
+            Errors.Add(error);
 
             return this;
         }
@@ -170,7 +170,7 @@ namespace RJDev.Core.Essentials.Results
         {
             foreach (AppString error in result.Errors)
             {
-                this.Errors.Add(error);
+                Errors.Add(error);
             }
         }
 
@@ -178,7 +178,7 @@ namespace RJDev.Core.Essentials.Results
         {
             foreach (AppString error in errors)
             {
-                this.Errors.Add(error);
+                Errors.Add(error);
             }
         }
     }

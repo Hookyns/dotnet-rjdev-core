@@ -27,8 +27,8 @@ namespace RJDev.Core.DependencyInjection.Injectable
         /// <param name="serviceLifetime"></param>
         public InjectableAttribute(Type service, ServiceLifetime serviceLifetime)
         {
-            this.Service = service;
-            this.ServiceLifetime = serviceLifetime;
+            Service = service;
+            ServiceLifetime = serviceLifetime;
         }
     }
 }

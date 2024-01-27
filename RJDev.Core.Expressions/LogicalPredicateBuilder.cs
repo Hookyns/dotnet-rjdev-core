@@ -8,11 +8,11 @@ namespace RJDev.Core.Expressions
         /// <summary>
         /// Current predicate
         /// </summary>
-        private Expression<Func<TParam, bool>> predicate;
+        private Expression<Func<TParam, bool>> _predicate;
 
         public LogicalPredicateBuilder(Expression<Func<TParam, bool>> predicate)
         {
-            this.predicate = predicate ?? throw new ArgumentNullException(nameof(predicate));
+            _predicate = predicate ?? throw new ArgumentNullException(nameof(predicate));
         }
 
         /// <summary>
@@ -22,9 +22,9 @@ namespace RJDev.Core.Expressions
         /// <returns></returns>
         public LogicalPredicateBuilder<TParam> And(Expression<Func<TParam, bool>> anotherPredicate)
         {
-            this.predicate = Expression.Lambda<Func<TParam, bool>>(
-                Expression.AndAlso(this.predicate.Body, this.GetFixedBody(anotherPredicate)),
-                this.predicate.Parameters
+            _predicate = Expression.Lambda<Func<TParam, bool>>(
+                Expression.AndAlso(_predicate.Body, GetFixedBody(anotherPredicate)),
+                _predicate.Parameters
             );
             return this;
         }
@@ -36,9 +36,9 @@ namespace RJDev.Core.Expressions
         /// <returns></returns>
         public LogicalPredicateBuilder<TParam> Or(Expression<Func<TParam, bool>> anotherPredicate)
         {
-            this.predicate = Expression.Lambda<Func<TParam, bool>>(
-                Expression.OrElse(this.predicate.Body, this.GetFixedBody(anotherPredicate)),
-                this.predicate.Parameters
+            _predicate = Expression.Lambda<Func<TParam, bool>>(
+                Expression.OrElse(_predicate.Body, GetFixedBody(anotherPredicate)),
+                _predicate.Parameters
             );
             return this;
         }
@@ -49,14 +49,14 @@ namespace RJDev.Core.Expressions
         /// <returns></returns>
         public Expression<Func<TParam, bool>> Build()
         {
-            return this.predicate;
+            return _predicate;
         }
 
         private Expression GetFixedBody(Expression<Func<TParam, bool>> anotherPredicate)
         {
             Expression right = ReplaceParameterVisitor.Replace(
                 anotherPredicate.Parameters[0],
-                this.predicate.Parameters[0],
+                _predicate.Parameters[0],
                 anotherPredicate.Body
             );
             return right;

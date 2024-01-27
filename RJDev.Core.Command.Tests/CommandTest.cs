@@ -15,7 +15,7 @@ namespace RJDev.Core.Command.Tests
         /// <summary>
         /// Output helper
         /// </summary>
-        private readonly ITestOutputHelper testOutputHelper;
+        private readonly ITestOutputHelper _testOutputHelper;
 
         /// <summary>
         /// Ctor
@@ -23,7 +23,7 @@ namespace RJDev.Core.Command.Tests
         /// <param name="testOutputHelper"></param>
         public CommandTest(ITestOutputHelper testOutputHelper)
         {
-            this.testOutputHelper = testOutputHelper;
+            _testOutputHelper = testOutputHelper;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace RJDev.Core.Command.Tests
             ICommand command = finder.GetCommand("list", belongsTo: typeof(SpecificCommandSet));
             command.Execute(commands);
             
-            this.testOutputHelper.WriteLine(string.Join(Environment.NewLine, commands));
+            _testOutputHelper.WriteLine(string.Join(Environment.NewLine, commands));
             
             Assert.Collection(
                 commands.OrderBy(x => x),

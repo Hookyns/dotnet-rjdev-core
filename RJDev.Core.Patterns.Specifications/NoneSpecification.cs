@@ -8,7 +8,7 @@ namespace RJDev.Core.Patterns.Specifications
     {
         public NoneSpecification()
         {
-            this.Criteria = x => false;
+            Criteria = x => false;
         }
     }
 }

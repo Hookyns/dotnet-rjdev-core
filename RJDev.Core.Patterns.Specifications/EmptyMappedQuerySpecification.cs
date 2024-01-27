@@ -21,12 +21,12 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseMappedQuerySpecification<TEntity, TEntity>()
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = this.OrderBy,
-                Skip = this.Skip,
-                Take = this.Take,
-                Selector = this.Selector,
-                PostAction = this.PostAction
+                Criteria = ResolveCriteria(specification),
+                OrderBy = OrderBy,
+                Skip = Skip,
+                Take = Take,
+                Selector = Selector,
+                PostAction = PostAction
             };
         }
 
@@ -34,12 +34,12 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseMappedQuerySpecification<TEntity, TEntity>()
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = BaseQuerySpecification<TEntity>.MergeOrders(this.OrderBy, specification.OrderBy),
-                Skip = this.Skip ?? specification.Skip,
-                Take = this.Take ?? specification.Take,
-                Selector = this.Selector,
-                PostAction = this.PostAction
+                Criteria = ResolveCriteria(specification),
+                OrderBy = BaseQuerySpecification<TEntity>.MergeOrders(OrderBy, specification.OrderBy),
+                Skip = Skip ?? specification.Skip,
+                Take = Take ?? specification.Take,
+                Selector = Selector,
+                PostAction = PostAction
             };
         }
 

@@ -10,7 +10,7 @@ namespace RJDev.Core.Command.Tests.Commands.SecondCommandSet
         /// <summary>
         /// Command finder
         /// </summary>
-        private readonly ICommandFinder commandFinder;
+        private readonly ICommandFinder _commandFinder;
 
         /// <summary>
         /// Ctor
@@ -18,7 +18,7 @@ namespace RJDev.Core.Command.Tests.Commands.SecondCommandSet
         /// <param name="commandFinder"></param>
         public ListCommand(ICommandFinder commandFinder)
         {
-            this.commandFinder = commandFinder;
+            _commandFinder = commandFinder;
         }
 
         /// <inheritdoc />
@@ -29,7 +29,7 @@ namespace RJDev.Core.Command.Tests.Commands.SecondCommandSet
                 ?? throw new InvalidOperationException("This command requires one arguments of type 'List<string>'");
             
             // List commands from scoped command finder
-            IEnumerable<string> commands = this.commandFinder.GetCommands().Select(c => c.Command.GetDetails());
+            IEnumerable<string> commands = _commandFinder.GetCommands().Select(c => c.Command.GetDetails());
 
             // Put commands into OUT list
             outList.AddRange(commands);

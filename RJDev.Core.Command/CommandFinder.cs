@@ -15,12 +15,12 @@ namespace RJDev.Core.Command
         /// <summary>
         /// Collection of Commands
         /// </summary>
-        private readonly Lazy<IEnumerable<CmdInfo>> cmdTypes;
+        private readonly Lazy<IEnumerable<CmdInfo>> _cmdTypes;
 
         /// <summary>
         /// Instance of service provider
         /// </summary>
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
         /// Ctor
@@ -29,22 +29,22 @@ namespace RJDev.Core.Command
         /// <param name="assemblies">Source assemblies</param>
         public CommandFinder(IServiceProvider serviceProvider, IEnumerable<Assembly> assemblies)
         {
-            this.serviceProvider = serviceProvider;
-            this.cmdTypes = new Lazy<IEnumerable<CmdInfo>>(() => GetCommandTypes(assemblies));
+            _serviceProvider = serviceProvider;
+            _cmdTypes = new Lazy<IEnumerable<CmdInfo>>(() => GetCommandTypes(assemblies));
         }
 
         /// <inheritdoc />
         public ICommand GetCommand(string name, Type? belongsTo)
         {
-            CmdInfo? cmdInfo = this.cmdTypes.Value
+            CmdInfo? cmdInfo = _cmdTypes.Value
                 .FirstOrDefault(x => x.Attr.Name == name && x.Attr.BelongsTo == belongsTo);
 
             if (cmdInfo == null)
             {
-                return this.GetNullCommandInstance(name);
+                return GetNullCommandInstance(name);
             }
 
-            return this.GetCommandInstance(cmdInfo);
+            return GetCommandInstance(cmdInfo);
         }
 
         /// <inheritdoc />
@@ -55,7 +55,7 @@ namespace RJDev.Core.Command
 #endif
             out ICommand command)
         {
-            return this.TryGetCommand(name, null, out command);
+            return TryGetCommand(name, null, out command);
         }
 
         /// <inheritdoc />
@@ -67,7 +67,7 @@ namespace RJDev.Core.Command
 #endif
             out ICommand command)
         {
-            CmdInfo? cmdInfo = this.cmdTypes.Value.FirstOrDefault(x => x.Attr.Name == name && x.Attr.BelongsTo == belongsTo);
+            CmdInfo? cmdInfo = _cmdTypes.Value.FirstOrDefault(x => x.Attr.Name == name && x.Attr.BelongsTo == belongsTo);
 
             if (cmdInfo == null)
             {
@@ -75,18 +75,18 @@ namespace RJDev.Core.Command
                 return false;
             }
 
-            command = this.GetCommandInstance(cmdInfo);
+            command = GetCommandInstance(cmdInfo);
             return true;
         }
 
         /// <inheritdoc />
         public IEnumerable<CommandDescriptor> GetCommands(Type? belongsTo = null)
         {
-            return this.cmdTypes.Value
+            return _cmdTypes.Value
                 .Where(cmdInfo => cmdInfo.Attr.BelongsTo == belongsTo)
                 .Select(cmdInfo => new CommandDescriptor(
                         cmdInfo.Attr.Name,
-                        this.GetCommandInstance(cmdInfo)
+                        GetCommandInstance(cmdInfo)
                     )
                 );
         }
@@ -98,7 +98,7 @@ namespace RJDev.Core.Command
         /// <returns></returns>
         private ICommand GetNullCommandInstance(string requestedCommandName)
         {
-            INullCommandFactory? nullCommandFactory = this.serviceProvider.GetService<INullCommandFactory>();
+            INullCommandFactory? nullCommandFactory = _serviceProvider.GetService<INullCommandFactory>();
 
             if (nullCommandFactory != null)
             {
@@ -131,11 +131,11 @@ namespace RJDev.Core.Command
 
             if (requiresCommandFinder)
             {
-                command = ActivatorUtilities.CreateInstance(this.serviceProvider, cmdInfo.Type, this) as ICommand;
+                command = ActivatorUtilities.CreateInstance(_serviceProvider, cmdInfo.Type, this) as ICommand;
             }
             else
             {
-                command = this.serviceProvider.GetService(cmdInfo.Type) as ICommand;
+                command = _serviceProvider.GetService(cmdInfo.Type) as ICommand;
             }
 
             if (command == null)
@@ -175,8 +175,8 @@ namespace RJDev.Core.Command
             /// <param name="attr"></param>
             public CmdInfo(Type type, CommandAttribute attr)
             {
-                this.Type = type;
-                this.Attr = attr;
+                Type = type;
+                Attr = attr;
             }
 
             /// <summary>

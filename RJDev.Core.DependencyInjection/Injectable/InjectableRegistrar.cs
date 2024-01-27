@@ -56,8 +56,8 @@ namespace RJDev.Core.DependencyInjection.Injectable
             /// <param name="injectableAttribute"></param>
             public InjectableImplementationInfo(Type type, InjectableAttribute injectableAttribute)
             {
-                this.Type = type;
-                this.InjectableAttribute = injectableAttribute;
+                Type = type;
+                InjectableAttribute = injectableAttribute;
             }
 
             /// <summary>

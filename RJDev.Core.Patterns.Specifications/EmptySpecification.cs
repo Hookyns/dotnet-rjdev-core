@@ -9,7 +9,7 @@ namespace RJDev.Core.Patterns.Specifications
     {
         public EmptySpecification()
         {
-            this.Criteria = x => true;
+            Criteria = x => true;
         }
 
         /// <inheritdoc />

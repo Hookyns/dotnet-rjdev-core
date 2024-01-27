@@ -16,7 +16,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public SpecificationBuilder<TEntity> And(Expression<Func<TEntity, bool>> criteria)
         {
-            this.criterias.Add(criteria);
+            criterias.Add(criteria);
             return this;
         }
 
@@ -30,7 +30,7 @@ namespace RJDev.Core.Patterns.Specifications
         {
             if (predicate)
             {
-                this.criterias.Add(criteria);
+                criterias.Add(criteria);
             }
 
             return this;
@@ -44,7 +44,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public SpecificationBuilder<TEntity> AndIfNotEmpty(Expression<Func<TEntity, bool>> criteria, string? value)
         {
-            return this.AndIf(criteria, !string.IsNullOrWhiteSpace(value));
+            return AndIf(criteria, !string.IsNullOrWhiteSpace(value));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public SpecificationBuilder<TEntity> AndIfNotEmpty(Expression<Func<TEntity, bool>> criteria, int? value)
         {
-            return this.AndIf(criteria, value != null && value != 0);
+            return AndIf(criteria, value != null && value != 0);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public SpecificationBuilder<TEntity> AndIfNotEmpty(Expression<Func<TEntity, bool>> criteria, Guid? value)
         {
-            return this.AndIf(criteria, value != null && value != Guid.Empty);
+            return AndIf(criteria, value != null && value != Guid.Empty);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public SpecificationBuilder<TEntity> AndIfNotEmpty(Expression<Func<TEntity, bool>> criteria, DateTime? value)
         {
-            return this.AndIf(criteria, value.HasValue && value.Value != default);
+            return AndIf(criteria, value.HasValue && value.Value != default);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace RJDev.Core.Patterns.Specifications
         {
             LogicalPredicateBuilder<TEntity> builder = new(x => true);
 
-            foreach (Expression<Func<TEntity, bool>> criteria in this.criterias)
+            foreach (Expression<Func<TEntity, bool>> criteria in criterias)
             {
                 builder = builder.And(criteria);
             }

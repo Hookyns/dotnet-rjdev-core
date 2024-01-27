@@ -5,18 +5,18 @@ namespace RJDev.Core.Expressions
 {
     public class ReplaceParameterVisitor : ExpressionVisitor
     {
-        private readonly ParameterExpression oldParameter;
-        private readonly ParameterExpression newParameter;
+        private readonly ParameterExpression _oldParameter;
+        private readonly ParameterExpression _newParameter;
 
         private ReplaceParameterVisitor(ParameterExpression oldParameter, ParameterExpression newParameter)
         {
-            this.oldParameter = oldParameter;
-            this.newParameter = newParameter;
+            _oldParameter = oldParameter;
+            _newParameter = newParameter;
         }
 
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            return node == this.oldParameter ? this.newParameter : base.VisitParameter(node);
+            return node == _oldParameter ? _newParameter : base.VisitParameter(node);
         }
 
         public static Expression Replace(ParameterExpression oldParameter, ParameterExpression newParameter, Expression body)

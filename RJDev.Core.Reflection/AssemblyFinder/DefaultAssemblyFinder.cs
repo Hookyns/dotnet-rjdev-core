@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-#if !NETSTANDARD2_0
+#if !NETSTANDARD2_0 && !NETSTANDARD2_1
 using System.Runtime.Loader;
 #endif
 
@@ -14,7 +14,7 @@ namespace RJDev.Core.Reflection.AssemblyFinder
         /// <summary>
         /// List of assembly paths its loading failed.
         /// </summary>
-        private readonly List<(string, Exception)> failedAssemblyPaths = new();
+        private readonly List<(string, Exception)> _failedAssemblyPaths = new();
 
         /// <inheritdoc />
         public IEnumerable<Assembly> GetAssemblies(string searchPattern)
@@ -31,7 +31,7 @@ namespace RJDev.Core.Reflection.AssemblyFinder
             {
                 try
                 {
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NETSTANDARD2_1
                     assembly = Assembly.LoadFrom(path);
 #else
                     assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
@@ -39,7 +39,7 @@ namespace RJDev.Core.Reflection.AssemblyFinder
                 }
                 catch (Exception ex)
                 {
-                    this.failedAssemblyPaths.Add((path, ex));
+                    _failedAssemblyPaths.Add((path, ex));
                 }
 
                 if (assembly != null && !returnedAssemblies.Contains(assembly.Location))
@@ -53,7 +53,7 @@ namespace RJDev.Core.Reflection.AssemblyFinder
         /// <inheritdoc />
         public IList<(string path, Exception exception)> GetErrors()
         {
-            return this.failedAssemblyPaths.ToList();
+            return _failedAssemblyPaths.ToList();
         }
 
         /// <summary>

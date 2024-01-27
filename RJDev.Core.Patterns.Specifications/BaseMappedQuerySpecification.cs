@@ -11,8 +11,8 @@ namespace RJDev.Core.Patterns.Specifications
         /// <inheritdoc />
         public Expression<Func<TEntity, TTarget>> Selector
         {
-            get => this.selector ?? throw new InvalidOperationException($"Mapped query specification '{this.GetType().FullName}' does not initialize '{nameof(this.Selector)}'.");
-            protected internal init => this.selector = value;
+            get => selector ?? throw new InvalidOperationException($"Mapped query specification '{GetType().FullName}' does not initialize '{nameof(Selector)}'.");
+            protected internal init => selector = value;
         }
 
         /// <inheritdoc />
@@ -24,12 +24,12 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseMappedQuerySpecification<TEntity, TTarget>()
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = this.OrderBy,
-                Skip = this.Skip,
-                Take = this.Take,
-                Selector = this.Selector,
-                PostAction = this.PostAction
+                Criteria = ResolveCriteria(specification),
+                OrderBy = OrderBy,
+                Skip = Skip,
+                Take = Take,
+                Selector = Selector,
+                PostAction = PostAction
             };
         }
 
@@ -38,12 +38,12 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseMappedQuerySpecification<TEntity, TTarget>()
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = MergeOrders(this.OrderBy, specification.OrderBy),
-                Skip = this.Skip ?? specification.Skip,
-                Take = this.Take ?? specification.Take,
-                Selector = this.Selector,
-                PostAction = this.PostAction
+                Criteria = ResolveCriteria(specification),
+                OrderBy = MergeOrders(OrderBy, specification.OrderBy),
+                Skip = Skip ?? specification.Skip,
+                Take = Take ?? specification.Take,
+                Selector = Selector,
+                PostAction = PostAction
             };
         }
 
@@ -51,33 +51,33 @@ namespace RJDev.Core.Patterns.Specifications
         public override IMappedQuerySpecification<TEntity, TAnotherTarget> And<TAnotherTarget>(IMappedQuerySpecification<TEntity, TAnotherTarget> specification)
             where TAnotherTarget : class
         {
-            this.AssertLimits(specification.Skip, specification.Take, specification.GetType());
-            this.AssertTypes<TAnotherTarget>();
+            AssertLimits(specification.Skip, specification.Take, specification.GetType());
+            AssertTypes<TAnotherTarget>();
 
             return new BaseMappedQuerySpecification<TEntity, TAnotherTarget>
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = MergeOrders(this.OrderBy, specification.OrderBy),
-                Skip = specification.Skip ?? this.Skip,
-                Take = specification.Take ?? this.Take,
+                Criteria = ResolveCriteria(specification),
+                OrderBy = MergeOrders(OrderBy, specification.OrderBy),
+                Skip = specification.Skip ?? Skip,
+                Take = specification.Take ?? Take,
                 Selector = specification.Selector,
-                PostAction = this.MergePostActions(specification.PostAction)
+                PostAction = MergePostActions(specification.PostAction)
             };
         }
 
         /// <inheritdoc />
         public IMappedQuerySpecification<TEntity, TTarget> And(IMappedQuerySpecification<TEntity, TTarget> specification)
         {
-            this.AssertLimits(specification.Skip, specification.Take, specification.GetType());
+            AssertLimits(specification.Skip, specification.Take, specification.GetType());
 
             return new BaseMappedQuerySpecification<TEntity, TTarget>()
             {
-                Criteria = this.ResolveCriteria(specification),
-                OrderBy = MergeOrders(this.OrderBy, specification.OrderBy),
-                Skip = specification.Skip ?? this.Skip,
-                Take = specification.Take ?? this.Take,
+                Criteria = ResolveCriteria(specification),
+                OrderBy = MergeOrders(OrderBy, specification.OrderBy),
+                Skip = specification.Skip ?? Skip,
+                Take = specification.Take ?? Take,
                 Selector = specification.Selector,
-                PostAction = specification.PostAction ?? this.PostAction
+                PostAction = specification.PostAction ?? PostAction
             };
         }
 
@@ -91,17 +91,17 @@ namespace RJDev.Core.Patterns.Specifications
         {
             if (specificationPostAction == null)
             {
-                return this.PostAction as Action<TAnotherTarget>;
+                return PostAction as Action<TAnotherTarget>;
             }
 
-            if (this.PostAction == null)
+            if (PostAction == null)
             {
                 return specificationPostAction;
             }
 
             return target =>
             {
-                (this.PostAction as Action<TAnotherTarget>)?.Invoke(target);
+                (PostAction as Action<TAnotherTarget>)?.Invoke(target);
                 specificationPostAction(target);
             };
         }

@@ -6,13 +6,13 @@ namespace RJDev.Core.Patterns.Specifications
     public abstract class SpecificationBase<TEntity> : ISpecification<TEntity>
         where TEntity : class
     {
-        private Expression<Func<TEntity, bool>>? criteria;
+        private Expression<Func<TEntity, bool>>? _criteria;
 
         /// <inheritdoc />
         public Expression<Func<TEntity, bool>>? Criteria
         {
-            get => this.criteria;
-            protected internal init => this.criteria = value;
+            get => _criteria;
+            protected internal init => _criteria = value;
         }
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <param name="criteria"></param>
         protected void SetCriteria(Expression<Func<TEntity, bool>> criteria)
         {
-            this.criteria = criteria;
+            _criteria = criteria;
         }
 
         /// <inheritdoc />
@@ -36,13 +36,13 @@ namespace RJDev.Core.Patterns.Specifications
         /// <inheritdoc />
         ISpecification<TEntity> ISpecification<TEntity>.AndIf(ISpecification<TEntity> specification, bool predicate)
         {
-            return predicate ? this.And(specification) : this;
+            return predicate ? And(specification) : this;
         }
 
         /// <inheritdoc />
         ISpecification<TEntity> ISpecification<TEntity>.AndIfNotEmpty(ISpecification<TEntity> specification, string? text)
         {
-            return string.IsNullOrWhiteSpace(text) ? this : this.And(specification);
+            return string.IsNullOrWhiteSpace(text) ? this : And(specification);
         }
 
         /// <inheritdoc />
@@ -50,7 +50,7 @@ namespace RJDev.Core.Patterns.Specifications
         {
             BaseQuerySpecificationBuilder<TEntity> builder = new();
             configurator.Invoke(builder);
-            return this.And(builder.Build());
+            return And(builder.Build());
         }
 
         /// <inheritdoc />
@@ -58,7 +58,7 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseMappedQuerySpecification<TEntity, TEntity>
             {
-                Criteria = this.Criteria,
+                Criteria = Criteria,
                 Selector = entity => entity
             };
         }

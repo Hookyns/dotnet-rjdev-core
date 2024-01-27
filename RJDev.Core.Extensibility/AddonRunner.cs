@@ -11,22 +11,22 @@ namespace RJDev.Core.Extensibility
         /// <summary>
         /// Hosting environment
         /// </summary>
-        private readonly IHostEnvironment hostEnvironment;
+        private readonly IHostEnvironment _hostEnvironment;
 
         /// <summary>
         /// Configuration
         /// </summary>
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Service provider
         /// </summary>
-        private readonly IServiceProvider serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
         /// List of addons
         /// </summary>
-        private readonly IAddon[] addons;
+        private readonly IAddon[] _addons;
 
         /// <summary>
         /// Ctor
@@ -37,10 +37,10 @@ namespace RJDev.Core.Extensibility
         /// <param name="configuration"></param>
         public AddonRunner(IHostEnvironment hostEnvironment, IConfiguration configuration, IServiceProvider serviceProvider, IAddon[] addons)
         {
-            this.hostEnvironment = hostEnvironment;
-            this.configuration = configuration;
-            this.serviceProvider = serviceProvider;
-            this.addons = addons;
+            _hostEnvironment = hostEnvironment;
+            _configuration = configuration;
+            _serviceProvider = serviceProvider;
+            _addons = addons;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace RJDev.Core.Extensibility
         /// <returns></returns>
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            foreach (IAddon addon in this.addons)
+            foreach (IAddon addon in _addons)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -59,7 +59,7 @@ namespace RJDev.Core.Extensibility
 
                 try
                 {
-                    await addon.Execute(this.hostEnvironment, this.configuration, this.serviceProvider, cancellationToken);
+                    await addon.Execute(_hostEnvironment, _configuration, _serviceProvider, cancellationToken);
                 }
                 catch (Exception ex)
                 {

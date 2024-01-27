@@ -8,7 +8,7 @@ namespace RJDev.Core.Reflection.Tests
 {
     public class FindAssemblyTest
     {
-        private readonly ITestOutputHelper testOutputHelper;
+        private readonly ITestOutputHelper _testOutputHelper;
 
         /// <summary>
         /// Ctor
@@ -16,7 +16,7 @@ namespace RJDev.Core.Reflection.Tests
         /// <param name="testOutputHelper"></param>
         public FindAssemblyTest(ITestOutputHelper testOutputHelper)
         {
-            this.testOutputHelper = testOutputHelper;
+            _testOutputHelper = testOutputHelper;
         }
 
         [Fact]

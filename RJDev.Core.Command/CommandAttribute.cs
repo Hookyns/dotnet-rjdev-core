@@ -24,8 +24,8 @@ namespace RJDev.Core.Command
         /// <param name="belongsTo">Optional Type parameter. Command can be related to some type, eg. related to hosts, services,..</param>
         public CommandAttribute(string name, Type? belongsTo = null)
         {
-            this.Name = name;
-            this.BelongsTo = belongsTo;
+            Name = name;
+            BelongsTo = belongsTo;
         }
     }
 }

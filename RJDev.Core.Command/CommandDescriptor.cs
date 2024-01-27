@@ -22,8 +22,8 @@ namespace RJDev.Core.Command
         /// <param name="command"></param>
         public CommandDescriptor(string name, ICommand command)
         {
-            this.Name = name;
-            this.Command = command;
+            Name = name;
+            Command = command;
         }
     }
 }

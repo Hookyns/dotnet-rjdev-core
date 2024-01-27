@@ -8,9 +8,9 @@ namespace RJDev.Core.Patterns.Specifications
     public class BaseQuerySpecificationBuilder<TEntity>
         where TEntity : class
     {
-        private List<(SpecificationSortType sortType, Expression<Func<TEntity, object>> selector)> orderBy = new();
-        public int? skip;
-        public int? take;
+        private readonly List<(SpecificationSortType sortType, Expression<Func<TEntity, object>> selector)> _orderBy = new();
+        protected int? _skip;
+        protected int? _take;
 
         /// <summary>
         /// Add <see cref="SpecificationSortType.Ascending"/> order by expression.
@@ -19,7 +19,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public BaseQuerySpecificationBuilder<TEntity> OrderBy(Expression<Func<TEntity, object>> selector)
         {
-            this.orderBy.Add((SpecificationSortType.Ascending, selector));
+            _orderBy.Add((SpecificationSortType.Ascending, selector));
             return this;
         }
 
@@ -30,7 +30,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public BaseQuerySpecificationBuilder<TEntity> OrderByDescending(Expression<Func<TEntity, object>> selector)
         {
-            this.orderBy.Add((SpecificationSortType.Descending, selector));
+            _orderBy.Add((SpecificationSortType.Descending, selector));
             return this;
         }
 
@@ -41,7 +41,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public BaseQuerySpecificationBuilder<TEntity> Take(int takeCount)
         {
-            this.take = takeCount;
+            _take = takeCount;
             return this;
         }
 
@@ -52,7 +52,7 @@ namespace RJDev.Core.Patterns.Specifications
         /// <returns></returns>
         public BaseQuerySpecificationBuilder<TEntity> Skip(int skipCount)
         {
-            this.skip = skipCount;
+            _skip = skipCount;
             return this;
         }
 
@@ -64,9 +64,9 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseQuerySpecification<TEntity>()
             {
-                Skip = this.skip,
-                Take = this.take,
-                OrderBy = this.orderBy.ToList()
+                Skip = _skip,
+                Take = _take,
+                OrderBy = _orderBy.ToList()
             };
         }
     }

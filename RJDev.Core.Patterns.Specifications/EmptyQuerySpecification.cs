@@ -24,7 +24,7 @@ namespace RJDev.Core.Patterns.Specifications
 
         public EmptyQuerySpecification()
         {
-            this.Criteria = x => true;
+            Criteria = x => true;
         }
 
         /// <inheritdoc />
@@ -42,10 +42,10 @@ namespace RJDev.Core.Patterns.Specifications
         {
             return new BaseMappedQuerySpecification<TEntity, TTarget>
             {
-                Criteria = this.Criteria,
-                OrderBy = this.OrderBy,
-                Skip = this.Skip,
-                Take = this.Take,
+                Criteria = Criteria,
+                OrderBy = OrderBy,
+                Skip = Skip,
+                Take = Take,
                 Selector = selector,
                 PostAction = postAction
             };

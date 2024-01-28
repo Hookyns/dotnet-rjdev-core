@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using RJDev.Core.Essentials.AppStrings;
 
@@ -7,9 +8,9 @@ namespace RJDev.Core.Essentials.Results
 {
     public class Result<TValue> : Result, IResult<TValue>
     {
-        /// <inheritdoc cref="IResult{TValue}.Ok"/> />
+        /// <inheritdoc cref="IResult{TValue}.IsOk"/> />
         [MemberNotNullWhen(true, "Value")]
-        public sealed override bool Ok => base.Ok;
+        public sealed override bool IsOk => base.IsOk;
 
         /// <inheritdoc />
         public TValue? Value { get; }
@@ -17,14 +18,14 @@ namespace RJDev.Core.Essentials.Results
         /// <summary>
         /// Create positive or negative result with value.
         /// </summary>
-        /// <param name="ok"></param>
+        /// <param name="isOk"></param>
         /// <param name="value"></param>
-        public Result(bool ok, TValue? value)
-            : base(ok)
+        public Result(bool isOk, TValue? value)
+            : base(isOk)
         {
             Value = value;
 
-            if (Ok && value == null)
+            if (IsOk && value == null)
             {
                 throw new ArgumentNullException(nameof(value), "Value cannot be null in positive result. Use base Result when you have no value.");
             }
@@ -37,15 +38,38 @@ namespace RJDev.Core.Essentials.Results
         public Result(params AppString[] errors)
             : base(false)
         {
-            foreach (AppString error in errors)
-            {
-                Add(error);
-            }
+            Errors = errors;
+        }
 
-            if (Ok)
-            {
-                throw new InvalidOperationException("Value cannot be null in positive result. Use base Result when you have no value.");
-            }
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        public Result(int status, params AppString[] errors)
+            : base(status, errors)
+        {
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="errors"></param>
+        public Result(string subject, params AppString[] errors)
+            : base(subject, errors)
+        {
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        public Result(string subject, int status, params AppString[] errors)
+            : base(subject, status, errors)
+        {
         }
 
         /// <summary>
@@ -53,74 +77,51 @@ namespace RJDev.Core.Essentials.Results
         /// </summary>
         /// <param name="result"></param>
         public Result(IResult<TValue> result)
-            : base(result.Ok)
+            : base(result)
         {
             Value = result.Value;
-            CopyErrors(result);
         }
 
         /// <summary>
-        /// Create new result (copy) based on existing result.
+        /// Create negative value result.
         /// </summary>
-        /// <param name="result"></param>
-        /// <param name="value"></param>
-        public Result(IResult<TValue> result, TValue? value)
-            : this(result.Ok, value ?? result.Value)
+        /// <param name="origResult"></param>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TOldValue>(IResult<TOldValue> origResult)
         {
-            CopyErrors(result);
-        }
-
-        /// <summary>
-        /// Create new result (copy) based on existing result.
-        /// </summary>
-        /// <param name="result"></param>
-        /// <param name="value"></param>
-        public Result(IResult result, TValue? value)
-            : this(result.Ok, value)
-        {
-            CopyErrors(result);
-        }
-
-        /// <inheritdoc />
-        public override IResult<TNewValue> Cast<TNewValue>()
-        {
-            Result<TNewValue> newResult = new(Ok, Value is TNewValue cast ? cast : default);
-            newResult.CopyErrors(Errors);
-            return newResult;
+            return new Result<TValue>(origResult.Errors.ToArray())
+            {
+                Subject = origResult.Subject,
+                Status = origResult.Status
+            };
         }
 
         /// <inheritdoc />
         public IResult Then(Func<IResult<TValue>, IResult> action)
         {
-            if (!Ok)
+            if (!IsOk)
             {
                 return this;
             }
 
-            IResult actionResult = action.Invoke(this);
-            Result result = new(actionResult.Ok);
-            result.CopyErrors(Errors);
-            return result;
+            return action.Invoke(this);
         }
 
         /// <inheritdoc />
         public async Task<IResult> Then(Func<IResult<TValue>, Task<IResult>> action)
         {
-            if (!Ok)
+            if (!IsOk)
             {
                 return this;
             }
 
-            IResult actionResult = await action.Invoke(this);
-            Result result = new(actionResult.Ok);
-            result.CopyErrors(Errors);
-            return result;
+            return await action.Invoke(this);
         }
 
         /// <inheritdoc />
         public IResult<TValue> Then(Action<IResult<TValue>> action)
         {
-            if (!Ok)
+            if (!IsOk)
             {
                 return this;
             }
@@ -132,7 +133,7 @@ namespace RJDev.Core.Essentials.Results
         /// <inheritdoc />
         public IResult<TValue> Then(Func<IResult<TValue>, object> action)
         {
-            if (!Ok)
+            if (!IsOk)
             {
                 return this;
             }
@@ -144,23 +145,23 @@ namespace RJDev.Core.Essentials.Results
         /// <inheritdoc />
         public IResult<TAnotherValue> Then<TAnotherValue>(Func<IResult<TValue>, IResult<TAnotherValue>> action)
         {
-            return Ok ? action.Invoke(this) : Cast<TAnotherValue>();
-        }
-
-        /// <inheritdoc />
-        public IResult<TAnotherValue> Then<TAnotherValue>(Func<IResult<TAnotherValue>> action)
-        {
-            return Ok ? action.Invoke() : Cast<TAnotherValue>();
-        }
-
-        private void CopyErrors(IResult<TValue> result)
-        {
-            foreach (AppString error in result.Errors)
+            if (!IsOk)
             {
-                Errors.Add(error);
+                return new Result<TAnotherValue>(Errors.ToArray())
+                {
+                    Subject = Subject,
+                    Status = Status
+                };
             }
+
+            return action.Invoke(this);
         }
 
-        public static implicit operator Result<TValue>(TValue value) => new(true, value);
+        // /// <summary>
+        // /// Operator allowing to cast value into Result.
+        // /// </summary>
+        // /// <param name="value"></param>
+        // /// <returns></returns>
+        // public static implicit operator Result<TValue>(TValue value) => new(true, value);
     }
 }

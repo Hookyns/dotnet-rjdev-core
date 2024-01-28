@@ -1,19 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<PackageId>RJDev.Core.Essentials</PackageId>
-		<Version>1.0.0</Version>
-		<Authors>Roman Jámbor</Authors>
-		<Company>Roman Jámbor</Company>
-		<Description>Module of RJDev.Core library with application utilities.</Description>
-	</PropertyGroup>
+    <PropertyGroup>
+        <PackageId>RJDev.Core.Essentials</PackageId>
+        <Version>2.0.0</Version>
+        <Authors>Roman Jámbor</Authors>
+        <Company>Roman Jámbor</Company>
+        <Description>Module of RJDev.Core library with application utilities.</Description>
+    </PropertyGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Nullable" Version="1.3.1">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="RJDev.Core.Reflection" Version="1.0.1" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0"/>
+        <PackageReference Include="Nullable" Version="1.3.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="RJDev.Core.Reflection" Version="1.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'netstandard2.0' ">
+        <PackageReference Include="IsExternalInit" Version="1.0.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
 </Project>

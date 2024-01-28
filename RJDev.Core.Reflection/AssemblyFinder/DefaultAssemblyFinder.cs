@@ -42,9 +42,8 @@ namespace RJDev.Core.Reflection.AssemblyFinder
                     _failedAssemblyPaths.Add((path, ex));
                 }
 
-                if (assembly != null && !returnedAssemblies.Contains(assembly.Location))
+                if (assembly != null && returnedAssemblies.Add(assembly.Location))
                 {
-                    returnedAssemblies.Add(assembly.Location);
                     yield return assembly;
                 }
             }

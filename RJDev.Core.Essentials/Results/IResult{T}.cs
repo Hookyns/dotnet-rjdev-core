@@ -14,48 +14,41 @@ namespace RJDev.Core.Essentials.Results
         /// True if the result is without errors.
         /// </summary>
         [MemberNotNullWhen(true, "Value")]
-        new bool Ok { get; }
+        new bool IsOk { get; }
 
         /// <summary></summary>
         TValue? Value { get; }
 
         /// <summary>
-        /// Chain some operation. Operation will be executed when this result is <see cref="Ok"/>.
+        /// Chain some operation. Operation will be executed when this result is <see cref="IsOk"/>.
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
         IResult Then(Func<IResult<TValue>, IResult> action);
 
         /// <summary>
-        /// Chain some async operation. Operation will be executed when this result is <see cref="Ok"/>.
+        /// Chain some async operation. Operation will be executed when this result is <see cref="IsOk"/>.
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
         Task<IResult> Then(Func<IResult<TValue>, Task<IResult>> action);
 
         /// <summary>
-        /// Chain some operation. Operation will be executed when this result is <see cref="Ok"/>.
+        /// Chain some operation. Operation will be executed when this result is <see cref="IsOk"/>.
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
         IResult<TValue> Then(Action<IResult<TValue>> action);
 
         /// <summary>
-        /// Chain some operation. Operation will be executed when this result is <see cref="Ok"/>.
+        /// Chain some operation. Operation will be executed when this result is <see cref="IsOk"/>.
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
         IResult<TValue> Then(Func<IResult<TValue>, object> action);
 
         /// <summary>
-        /// Chain some operation. Operation will be executed when this result is <see cref="Ok"/>.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        IResult<TNewValue> Then<TNewValue>(Func<IResult<TNewValue>> action);
-
-        /// <summary>
-        /// Chain some operation. Operation will be executed when this result is <see cref="Ok"/>.
+        /// Chain some operation. Operation will be executed when this result is <see cref="IsOk"/>.
         /// </summary>
         /// <param name="action"></param>
         /// <typeparam name="TAnotherValue"></typeparam>

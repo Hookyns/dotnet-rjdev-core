@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using RJDev.Core.Essentials.AppStrings;
 
@@ -8,25 +9,41 @@ namespace RJDev.Core.Essentials.Results
     public class Result : IResult
     {
         private static readonly Result OkResultCached = new(true);
-        private bool _ok;
+        private readonly bool _isOk;
 
         /// <inheritdoc />
-        public virtual bool Ok
+        public virtual bool IsOk
         {
-            get => _ok;
-            protected set => _ok = value;
+            get => _isOk;
+            protected init => _isOk = value;
         }
 
+        public string? Subject { get; protected init; }
+
+        public int? Status { get; protected init; }
+
         /// <inheritdoc />
-        public ICollection<AppString> Errors { get; } = new List<AppString>();
+        public IReadOnlyCollection<AppString> Errors { get; protected init; } = new List<AppString>();
 
         /// <summary>
         /// Create positive or negative result.
         /// </summary>
-        /// <param name="ok"></param>
-        public Result(bool ok)
+        /// <param name="isOk"></param>
+        public Result(bool isOk)
         {
-            _ok = ok;
+            _isOk = isOk;
+        }
+
+        /// <summary>
+        /// Create new result (copy) based on existing result.
+        /// </summary>
+        /// <param name="result"></param>
+        public Result(IResult result)
+            : this(result.IsOk)
+        {
+            Subject = result.Subject;
+            Status = result.Status;
+            Errors = result.Errors;
         }
 
         /// <summary>
@@ -36,17 +53,52 @@ namespace RJDev.Core.Essentials.Results
         public Result(params AppString[] errors)
             : this(false)
         {
-            foreach (AppString resultMessage in errors)
-            {
-                Add(resultMessage);
-            }
+            Errors = errors;
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        public Result(int status, params AppString[] errors)
+            : this(false)
+        {
+            Status = status;
+            Errors = errors;
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="errors"></param>
+        public Result(string subject, params AppString[] errors)
+            : this(false)
+        {
+            Subject = subject;
+            Errors = errors;
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        public Result(string subject, int status, params AppString[] errors)
+            : this(false)
+        {
+            Subject = subject;
+            Status = status;
+            Errors = errors;
         }
 
         /// <summary>
         /// Create positive result.
         /// </summary>
         /// <returns></returns>
-        public static IResult OkResult()
+        public static IResult Ok()
         {
             return OkResultCached;
         }
@@ -56,7 +108,7 @@ namespace RJDev.Core.Essentials.Results
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static IResult<TValue> OkResult<TValue>(TValue value)
+        public static IResult<TValue> Ok<TValue>(TValue value)
         {
             return new Result<TValue>(true, value);
         }
@@ -64,122 +116,75 @@ namespace RJDev.Core.Essentials.Results
         /// <summary>
         /// Create negative result.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
-        public static IResult<TValue> ErrorResult<TValue>(AppString message)
+        public static IResult Error(params AppString[] error)
         {
-            return new Result<TValue>(message);
-        }
-
-        /// <summary>
-        /// Create negative result.
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public static IResult ErrorResult(params AppString[] message)
-        {
-            return new Result(message);
+            return new Result(error);
         }
 
         /// <summary>
         /// Create negative value result.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="error"></param>
         /// <returns></returns>
-        public static IResult<TValue> ErrorResult<TValue>(params AppString[] message)
+        public static IResult<TValue> Error<TValue>(params AppString[] error)
         {
-            return new Result<TValue>(message);
+            return new Result<TValue>(error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <param name="origResult"></param>
+        /// <returns></returns>
+        public static IResult<TNewValue> Error<TValue, TNewValue>(IResult<TValue> origResult)
+        {
+            return new Result<TNewValue>(origResult.Errors.ToArray())
+            {
+                Subject = origResult.Subject,
+                Status = origResult.Status
+            };
         }
 
         /// <inheritdoc />
-        public virtual IResult<TValue> Cast<TValue>()
+        public IResult Then(Action<IResult> action)
         {
-            Result<TValue> result = new(Ok, default);
-            result.CopyErrors(Errors);
-            return result;
-        }
+            if (IsOk)
+            {
+                action.Invoke(this);
+            }
 
-        public IResult<TNewValue> Cast<TNewValue>(TNewValue newValue)
-        {
-            Result<TNewValue> result = new(Ok, newValue);
-            result.CopyErrors(Errors);
-            return result;
-        }
-
-        /// <inheritdoc />
-        public IResult Then(Func<IResult> action)
-        {
-            return !Ok ? this : action.Invoke();
+            return this;
         }
 
         /// <inheritdoc />
         public IResult Then(Func<IResult, IResult> action)
         {
-            return !Ok ? this : action.Invoke(this);
-        }
-
-        /// <inheritdoc />
-        public async Task<IResult> Then(Func<Task<IResult>> action)
-        {
-            return !Ok
-                ? this
-                : await action.Invoke();
+            return !IsOk ? this : action.Invoke(this);
         }
 
         /// <inheritdoc />
         public async Task<IResult> Then(Func<IResult, Task<IResult>> action)
         {
-            return !Ok
+            return !IsOk
                 ? this
                 : await action.Invoke(this);
         }
 
         /// <inheritdoc />
-        public async Task<IResult<TValue>> Then<TValue>(Func<Task<IResult<TValue>>> action)
-        {
-            return !Ok
-                ? Cast<TValue>()
-                : await action.Invoke();
-        }
-
-        /// <inheritdoc />
         public async Task<IResult<TValue>> Then<TValue>(Func<IResult, Task<IResult<TValue>>> action)
         {
-            return !Ok
-                ? Cast<TValue>()
-                : await action.Invoke(this);
-        }
-
-        /// <summary>
-        /// Add an error into the result.
-        /// </summary>
-        /// <param name="error"></param>
-        public Result Add(AppString error)
-        {
-            if (Ok)
+            if (!IsOk)
             {
-                throw new InvalidOperationException("You cannot add an error into positive result.");
+                return new Result<TValue>(Errors.ToArray())
+                {
+                    Subject = Subject,
+                    Status = Status
+                };
             }
 
-            Errors.Add(error);
-
-            return this;
-        }
-
-        protected internal void CopyErrors(IResult result)
-        {
-            foreach (AppString error in result.Errors)
-            {
-                Errors.Add(error);
-            }
-        }
-
-        protected internal void CopyErrors(ICollection<AppString> errors)
-        {
-            foreach (AppString error in errors)
-            {
-                Errors.Add(error);
-            }
+            return await action.Invoke(this);
         }
     }
 }

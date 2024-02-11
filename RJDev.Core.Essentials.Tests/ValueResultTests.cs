@@ -59,7 +59,7 @@ namespace RJDev.Core.Essentials.Tests
             
             Assert.False(result.IsOk);
             Assert.False(result.Value);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult<bool> result = new Result<bool>((int)HttpStatusCode.BadRequest, ErrorAppString);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
             Assert.Equal((int)HttpStatusCode.BadRequest, result.Status);
         }
 
@@ -78,7 +78,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult<bool> result = new Result<bool>(nameof(IResult<bool>), ErrorAppString);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
             Assert.Equal(nameof(IResult<bool>), result.Subject);
         }
 
@@ -88,7 +88,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult<bool> result = new Result<bool>(nameof(IResult<bool>), (int)HttpStatusCode.BadRequest, ErrorAppString);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
             Assert.Equal((int)HttpStatusCode.BadRequest, result.Status);
             Assert.Equal(nameof(IResult<bool>), result.Subject);
         }
@@ -138,7 +138,7 @@ namespace RJDev.Core.Essentials.Tests
             });
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
         }
 
         [Fact]
@@ -161,7 +161,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult<int> result = Result.Error<bool, int>(oldResult);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
         }
 
         [Fact]
@@ -171,7 +171,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult<int> result = Result<int>.Error(oldResult);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
         }
     }
 }

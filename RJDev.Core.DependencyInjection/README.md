@@ -2,7 +2,11 @@
 DependencyInjection module of RJDev.Core library.
 
 ## InjectableAttribute
-The `Injectable` attribute is used for registration of default implementations. No need to write thousands lines of default implementation registrations somewhere across project. Speeds up creating a lot of classes.
+The `Injectable` attribute is used for registration of default implementations. 
+No need to write thousands of lines of service registrations across projects. 
+Sure you can do some kind of matching by convention (like register all "*Service" classes), but it's not always possible. 
+I personally do not name everything XxxService. I prefer specific names like XxxProvider, XxxManager, XxxClient, XxxReader, XxxBuilder, XxxMapper, XxxValidator, XxxDecorator, XxxAdapter, XxxPublisher, XxxConsumer, XxxProcessor, XxxDispatcher, XxxChannel, XxxRouter, XxxGenerator, XxxProducer, etc. 
+So in this case, I would have to write a lot of registrations.
 
 ```c#
 interface ISomeService

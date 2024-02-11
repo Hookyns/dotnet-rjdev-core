@@ -42,7 +42,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult result = new Result(ErrorAppString);
             
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult result = new Result((int)HttpStatusCode.BadRequest, ErrorAppString);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
             Assert.Equal((int)HttpStatusCode.BadRequest, result.Status);
         }
 
@@ -61,7 +61,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult result = new Result(nameof(IResult), ErrorAppString);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
             Assert.Equal(nameof(IResult), result.Subject);
         }
 
@@ -71,7 +71,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult result = new Result(nameof(IResult), (int)HttpStatusCode.BadRequest, ErrorAppString);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
             Assert.Equal((int)HttpStatusCode.BadRequest, result.Status);
             Assert.Equal(nameof(IResult), result.Subject);
         }
@@ -93,7 +93,7 @@ namespace RJDev.Core.Essentials.Tests
             IResult result = new Result(oldResult);
 
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
             Assert.Equal((int)HttpStatusCode.BadRequest, result.Status);
             Assert.Equal(nameof(IResult), result.Subject);
         }
@@ -124,7 +124,7 @@ namespace RJDev.Core.Essentials.Tests
         {
             IResult result = Result.Ok().Then(_ => Result.Error(ErrorAppString));
             Assert.False(result.IsOk);
-            Assert.Single(result.Errors, ErrorAppString);
+            Assert.Single(result.Errors, err => err.Message == ErrorAppString);
         }
 
         [Fact]

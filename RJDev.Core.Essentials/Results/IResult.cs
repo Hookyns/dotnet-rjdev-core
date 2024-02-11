@@ -27,7 +27,7 @@ namespace RJDev.Core.Essentials.Results
         /// <summary>
         /// List of errors messages.
         /// </summary>
-        IReadOnlyCollection<AppString> Errors { get; }
+        IReadOnlyCollection<ResultError> Errors { get; }
 
         /// <summary>
         /// Chain some operation. Operation will be executed when this result is <see cref="IsOk"/>.

@@ -38,6 +38,16 @@ namespace RJDev.Core.Essentials.Results
         public Result(params AppString[] errors)
             : base(false)
         {
+            Errors = errors.Select(x => new ResultError(x)).ToArray();
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="errors"></param>
+        public Result(params ResultError[] errors)
+            : base(false)
+        {
             Errors = errors;
         }
 
@@ -47,6 +57,16 @@ namespace RJDev.Core.Essentials.Results
         /// <param name="status"></param>
         /// <param name="errors"></param>
         public Result(int status, params AppString[] errors)
+            : base(status, errors)
+        {
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        public Result(int status, params ResultError[] errors)
             : base(status, errors)
         {
         }
@@ -65,9 +85,30 @@ namespace RJDev.Core.Essentials.Results
         /// Create negative result with given set of errors.
         /// </summary>
         /// <param name="subject"></param>
+        /// <param name="errors"></param>
+        public Result(string subject, params ResultError[] errors)
+            : base(subject, errors)
+        {
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="subject"></param>
         /// <param name="status"></param>
         /// <param name="errors"></param>
         public Result(string subject, int status, params AppString[] errors)
+            : base(subject, status, errors)
+        {
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        public Result(string subject, int status, params ResultError[] errors)
             : base(subject, status, errors)
         {
         }

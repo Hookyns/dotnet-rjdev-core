@@ -23,7 +23,7 @@ namespace RJDev.Core.Essentials.Results
         public int? Status { get; protected init; }
 
         /// <inheritdoc />
-        public IReadOnlyCollection<AppString> Errors { get; protected init; } = new List<AppString>();
+        public IReadOnlyCollection<ResultError> Errors { get; protected init; } = Array.Empty<ResultError>();
 
         /// <summary>
         /// Create positive or negative result.
@@ -53,6 +53,16 @@ namespace RJDev.Core.Essentials.Results
         public Result(params AppString[] errors)
             : this(false)
         {
+            Errors = errors.Select(x => new ResultError(x)).ToArray();
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="errors"></param>
+        public Result(params ResultError[] errors)
+            : this(false)
+        {
             Errors = errors;
         }
 
@@ -62,6 +72,18 @@ namespace RJDev.Core.Essentials.Results
         /// <param name="status"></param>
         /// <param name="errors"></param>
         public Result(int status, params AppString[] errors)
+            : this(false)
+        {
+            Status = status;
+            Errors = errors.Select(x => new ResultError(x)).ToArray();
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        public Result(int status, params ResultError[] errors)
             : this(false)
         {
             Status = status;
@@ -77,6 +99,18 @@ namespace RJDev.Core.Essentials.Results
             : this(false)
         {
             Subject = subject;
+            Errors = errors.Select(x => new ResultError(x)).ToArray();
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="errors"></param>
+        public Result(string subject, params ResultError[] errors)
+            : this(false)
+        {
+            Subject = subject;
             Errors = errors;
         }
 
@@ -87,6 +121,20 @@ namespace RJDev.Core.Essentials.Results
         /// <param name="status"></param>
         /// <param name="errors"></param>
         public Result(string subject, int status, params AppString[] errors)
+            : this(false)
+        {
+            Subject = subject;
+            Status = status;
+            Errors = errors.Select(x => new ResultError(x)).ToArray();
+        }
+
+        /// <summary>
+        /// Create negative result with given set of errors.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        public Result(string subject, int status, params ResultError[] errors)
             : this(false)
         {
             Subject = subject;
@@ -116,11 +164,39 @@ namespace RJDev.Core.Essentials.Results
         /// <summary>
         /// Create negative result.
         /// </summary>
+        /// <returns></returns>
+        public static IResult Error()
+        {
+            return new Result(false);
+        }
+
+        /// <summary>
+        /// Create negative result.
+        /// </summary>
         /// <param name="error"></param>
         /// <returns></returns>
         public static IResult Error(params AppString[] error)
         {
             return new Result(error);
+        }
+
+        /// <summary>
+        /// Create negative result.
+        /// </summary>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult Error(params ResultError[] error)
+        {
+            return new Result(error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TValue>()
+        {
+            return new Result<TValue>(false, default);
         }
 
         /// <summary>
@@ -131,6 +207,50 @@ namespace RJDev.Core.Essentials.Results
         public static IResult<TValue> Error<TValue>(params AppString[] error)
         {
             return new Result<TValue>(error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TValue>(params ResultError[] error)
+        {
+            return new Result<TValue>(error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TValue>(int status, params ResultError[] error)
+        {
+            return new Result<TValue>(status, error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TValue>(string subject, params ResultError[] error)
+        {
+            return new Result<TValue>(subject, error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="status"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TValue>(string subject, int status, params ResultError[] error)
+        {
+            return new Result<TValue>(subject, status, error);
         }
 
         /// <summary>

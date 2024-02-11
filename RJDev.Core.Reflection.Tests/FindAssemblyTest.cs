@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using RJDev.Core.Reflection.AssemblyFinder;
 using Xunit;
@@ -23,7 +22,7 @@ namespace RJDev.Core.Reflection.Tests
         public void FindAssembly()
         {
             IAssemblyFinder af = new DefaultAssemblyFinder();
-            IEnumerable<string> assemblies = af.GetAssemblies("RJDev.*")
+            var assemblies = af.GetAssemblies("RJDev.*")
                 .Select(x => x.GetName().Name)
                 .OrderBy(x => x);
 

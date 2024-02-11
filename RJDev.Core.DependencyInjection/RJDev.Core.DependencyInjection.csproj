@@ -1,27 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<PackageId>RJDev.Core.DependencyInjection</PackageId>
-		<Version>2.0.0</Version>
-		<Authors>Roman Jámbor</Authors>
-		<Company>Roman Jámbor</Company>
-		<Description>DependencyInjection package of RJDev.Core library</Description>
-		<RepositoryUrl>https://github.com/Hookyns/dotnet-rjdev-core</RepositoryUrl>
-	</PropertyGroup>
+    <PropertyGroup>
+        <PackageId>RJDev.Core.DependencyInjection</PackageId>
+        <Version>2.0.1</Version>
+        <Authors>Roman Jámbor</Authors>
+        <Company>Roman Jámbor</Company>
+        <Description>DependencyInjection package of RJDev.Core library</Description>
+        <RepositoryUrl>https://github.com/Hookyns/dotnet-rjdev-core</RepositoryUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    </PropertyGroup>
 
-	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+        <None Include="LICENSE" Pack="true" PackagePath=""/>
+    </ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'netstandard2.0' ">
-		<PackageReference Include="IsExternalInit" Version="1.0.3">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0"/>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <None Include="README.md" />
-	</ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'netstandard2.0' ">
+        <PackageReference Include="IsExternalInit" Version="1.0.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
 </Project>

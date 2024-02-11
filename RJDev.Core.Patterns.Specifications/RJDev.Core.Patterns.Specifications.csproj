@@ -7,6 +7,7 @@
         <Authors>Roman Jámbor</Authors>
         <Company>Roman Jámbor</Company>
 		<Description>Package of RJDev.Core library containing implementation of the Specification pattern.</Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

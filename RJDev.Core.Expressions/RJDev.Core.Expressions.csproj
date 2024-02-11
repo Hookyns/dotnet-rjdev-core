@@ -5,6 +5,7 @@
 		<Version>1.0.1</Version>
 		<Authors>Roman Jámbor</Authors>
 		<Company>Roman Jámbor</Company>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

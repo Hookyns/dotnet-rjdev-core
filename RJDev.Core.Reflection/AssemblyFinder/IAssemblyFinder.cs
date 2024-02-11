@@ -12,7 +12,7 @@ namespace RJDev.Core.Reflection.AssemblyFinder
         /// <remarks>
         /// Support base wildcard (* and ?) characters.
         /// </remarks>
-        /// <param name="searchPattern"></param>
+        /// <param name="searchPattern">The search string to match against the names of files in path. This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions.</param>
         /// <returns></returns>
         IEnumerable<Assembly> GetAssemblies(string searchPattern);
 

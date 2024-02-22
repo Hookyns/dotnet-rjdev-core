@@ -6,6 +6,9 @@ using RJDev.Core.Reflection.AssemblyFinder;
 
 namespace RJDev.Core.Essentials.AppStrings
 {
+    /// <summary>
+    /// Implementation of the <see cref="IAppStringFinder"/> service using the <see cref="IAssemblyFinder"/>.
+    /// </summary>
     public class AppStringFinder : IAppStringFinder
     {
         private readonly IAssemblyFinder _assemblyFinder;

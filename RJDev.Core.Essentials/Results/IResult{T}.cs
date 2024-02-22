@@ -5,10 +5,15 @@ using System.Threading.Tasks;
 namespace RJDev.Core.Essentials.Results
 {
     /// <summary>
+    /// Alias for <see cref="IResult{TValue}"/>
+    /// </summary>
+    public interface IOpResult<out TValue> : IResult<TValue> { }
+
+    /// <summary>
     /// Result holding a value.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    public interface IResult<out TValue> : IResult
+    public interface IResult<out TValue> : IOpResult
     {
         /// <summary>
         /// True if the result is without errors.
@@ -53,6 +58,8 @@ namespace RJDev.Core.Essentials.Results
         /// <param name="action"></param>
         /// <typeparam name="TAnotherValue"></typeparam>
         /// <returns></returns>
-        IResult<TAnotherValue> Then<TAnotherValue>(Func<IResult<TValue>, IResult<TAnotherValue>> action);
+        IResult<TAnotherValue> Then<TAnotherValue>(
+            Func<IResult<TValue>, IResult<TAnotherValue>> action
+        );
     }
 }

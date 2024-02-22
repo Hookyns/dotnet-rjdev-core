@@ -183,11 +183,79 @@ namespace RJDev.Core.Essentials.Results
         /// <summary>
         /// Create negative result.
         /// </summary>
+        /// <param name="status"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult Error(int status, params AppString[] error)
+        {
+            return new Result(status, error);
+        }
+
+        /// <summary>
+        /// Create negative result.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult Error(string subject, params AppString[] error)
+        {
+            return new Result(subject, error);
+        }
+
+        /// <summary>
+        /// Create negative result.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="status"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult Error(string subject, int status, params AppString[] error)
+        {
+            return new Result(subject, status, error);
+        }
+
+        /// <summary>
+        /// Create negative result.
+        /// </summary>
         /// <param name="error"></param>
         /// <returns></returns>
         public static IResult Error(params ResultError[] error)
         {
             return new Result(error);
+        }
+
+        /// <summary>
+        /// Create negative result.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult Error(int status, params ResultError[] error)
+        {
+            return new Result(status, error);
+        }
+
+        /// <summary>
+        /// Create negative result.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult Error(string subject, params ResultError[] error)
+        {
+            return new Result(subject, error);
+        }
+
+        /// <summary>
+        /// Create negative result.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="status"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult Error(string subject, int status, params ResultError[] error)
+        {
+            return new Result(subject, status, error);
         }
 
         /// <summary>
@@ -207,6 +275,40 @@ namespace RJDev.Core.Essentials.Results
         public static IResult<TValue> Error<TValue>(params AppString[] error)
         {
             return new Result<TValue>(error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TValue>(int status, params AppString[] error)
+        {
+            return new Result<TValue>(status, error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TValue>(string subject, params AppString[] error)
+        {
+            return new Result<TValue>(subject, error);
+        }
+
+        /// <summary>
+        /// Create negative value result.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="status"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public static IResult<TValue> Error<TValue>(string subject, int status, params AppString[] error)
+        {
+            return new Result<TValue>(subject, status, error);
         }
 
         /// <summary>

@@ -1,10 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RJDev.Core.Essentials.AppStrings;
 
 namespace RJDev.Core.Essentials.Results
 {
+    /// <summary>
+    /// Alias for <see cref="IResult"/>
+    /// </summary>
+    public interface IOpResult : IResult {}
+
+    /// <summary>
+    /// Interface for result of some operation.
+    /// </summary>
     public interface IResult
     {
         /// <summary>

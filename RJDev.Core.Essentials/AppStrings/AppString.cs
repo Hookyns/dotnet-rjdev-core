@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RJDev.Core.Essentials.AppStrings
 {
@@ -8,17 +9,37 @@ namespace RJDev.Core.Essentials.AppStrings
     /// <remarks>
     /// The <see cref="Id"/> property is important. This whole object can be sent from API to the FE, external services etc.
     /// It is possible to identify each AppString and create custom localizations for each unique <see cref="Id"/>.
-    /// <see cref="Description"/> contains default message eg. in english.
+    /// <see cref="Description"/> contains default message e.g. in english.
     /// </remarks>
-    /// <param name="Id">Text/message/error identifier which should be unique. Can be used as localization key.</param>
-    /// <param name="Description">Default text of the message.</param>
     /// <exception cref="ArgumentNullException">If <see cref="Id"/> is null.</exception>
-    public record AppString(string Id, string? Description = null)
+    public record AppString
     {
+        /// <summary></summary>
+        [SetsRequiredMembers]
+        public AppString(string id, string? description = null)
+        {
+            Id = id ?? throw new ArgumentNullException(nameof(id));
+            Description = description ?? string.Empty;
+        }
+
+        /// <summary></summary>
+        public AppString()
+        {
+        }
+
         /// <summary/>
-        public string Id { get; } = Id ?? throw new ArgumentNullException(nameof(Id));
+        public required string Id { get; init; }
         
         /// <summary/>
-        public string Description { get; } = Description ?? string.Empty;
+        public required string Description { get; init; }
+
+        /// <summary></summary>
+        /// <param name="id"></param>
+        /// <param name="description"></param>
+        public void Deconstruct(out string id, out string? description)
+        {
+            id = Id;
+            description = Description;
+        }
     }
 }

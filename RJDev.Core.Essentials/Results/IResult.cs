@@ -1,14 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace RJDev.Core.Essentials.Results
 {
-    /// <summary>
-    /// Alias for <see cref="IResult"/>
-    /// </summary>
-    public interface IOpResult : IResult {}
-
     /// <summary>
     /// Interface for result of some operation.
     /// </summary>
@@ -37,38 +31,19 @@ namespace RJDev.Core.Essentials.Results
         IReadOnlyCollection<ResultError> Errors { get; }
 
         /// <summary>
-        /// Chain some operation. Operation will be executed when this result is <see cref="IsOk"/>.
+        /// Cast result to typed result
         /// </summary>
-        /// <param name="action"></param>
+        /// <typeparam name="TValue"></typeparam>
         /// <returns></returns>
-        IResult Then(Action<IResult> action);
+        IResult<TValue> Cast<TValue>(TValue? value = null)
+            where TValue : class;
 
         /// <summary>
-        /// Chain some operation. Operation will be executed when this result is <see cref="IsOk"/>.
+        /// Cast result to typed result
         /// </summary>
-        /// <param name="action"></param>
+        /// <typeparam name="TValue"></typeparam>
         /// <returns></returns>
-        IResult Then(Func<IResult, IResult> action);
-
-        /// <summary>
-        /// Chain some async operation. Operation will be executed when this result is <see cref="IsOk"/>.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        Task<IResult> Then(Func<IResult, Task<IResult>> action);
-
-        // /// <summary>
-        // /// Chain some async operation. Operation will be executed when this result is <see cref="Ok"/>.
-        // /// </summary>
-        // /// <param name="action"></param>
-        // /// <returns></returns>
-        // Task<IResult<TValue>> Then<TValue>(Func<Task<IResult<TValue>>> action);
-
-        /// <summary>
-        /// Chain some async operation. Operation will be executed when this result is <see cref="IsOk"/>.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <returns></returns>
-        Task<IResult<TValue>> Then<TValue>(Func<IResult, Task<IResult<TValue>>> action);
+        IResult<TValue> Cast<TValue>(TValue? value = null)
+            where TValue : struct;
     }
 }

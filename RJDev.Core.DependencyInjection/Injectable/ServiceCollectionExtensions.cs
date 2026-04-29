@@ -7,6 +7,9 @@ using RJDev.Core.DependencyInjection.Injectable;
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+/// Extensions
+/// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
@@ -41,7 +44,9 @@ public static class ServiceCollectionExtensions
         params Assembly[] assemblies
     )
     {
-        var injectableDescriptors = InjectablesFinder.GetInjectableTypes(assemblies).Where(selector);
+        var injectableDescriptors = InjectablesFinder
+            .GetInjectableTypes(assemblies)
+            .Where(selector);
 
         foreach (ServiceDescriptor dependency in ToServiceDescriptors(injectableDescriptors))
         {
@@ -71,14 +76,16 @@ public static class ServiceCollectionExtensions
         return serviceCollection;
     }
 
-    private static IEnumerable<ServiceDescriptor> ToServiceDescriptors(IEnumerable<InjectableDescriptor> descriptors)
+    private static IEnumerable<ServiceDescriptor> ToServiceDescriptors(
+        IEnumerable<InjectableDescriptor> descriptors
+    )
     {
         return descriptors.SelectMany(x =>
-            x.Services.Select(service =>
-                new ServiceDescriptor(
-                    service.Service,
-                    x.Implementation,
-                    service.ServiceLifetime ?? ServiceLifetime.Transient
-                )));
+            x.Services.Select(service => new ServiceDescriptor(
+                service.Service,
+                x.Implementation,
+                service.ServiceLifetime ?? ServiceLifetime.Transient
+            ))
+        );
     }
 }

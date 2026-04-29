@@ -22,15 +22,13 @@ public class InjectableAttribute : Attribute
 
     /// <summary>
     /// Register this implementation as default for all interfaces it implements.
-    /// Inherited interfaces are not included.
+    /// Inherited interfaces are not included. Register as Self if no interfaces are implemented.
     /// </summary>
-    public InjectableAttribute()
-    {
-    }
+    public InjectableAttribute() { }
 
     /// <summary>
     /// Register this implementation as default for all interfaces it implements.
-    /// Inherited interfaces are not included.
+    /// Inherited interfaces are not included. Register as Self if no interfaces are implemented.
     /// </summary>
     /// <param name="serviceLifetime"></param>
     public InjectableAttribute(ServiceLifetime serviceLifetime)

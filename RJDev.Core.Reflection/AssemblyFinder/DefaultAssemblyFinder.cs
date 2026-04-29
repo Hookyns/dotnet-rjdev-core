@@ -9,6 +9,9 @@ using System.Runtime.Loader;
 
 namespace RJDev.Core.Reflection.AssemblyFinder
 {
+    /// <summary>
+    /// Default implementation of <see cref="IAssemblyFinder"/> that searches for assemblies in the application's base directory and its subdirectories.
+    /// </summary>
     public class DefaultAssemblyFinder : IAssemblyFinder
     {
         /// <summary>
@@ -17,10 +20,19 @@ namespace RJDev.Core.Reflection.AssemblyFinder
         private readonly List<(string, Exception)> _failedAssemblyPaths = new();
 
         /// <inheritdoc />
-        public IEnumerable<Assembly> GetAssemblies(string searchPattern)
+        public IEnumerable<Assembly> GetAssemblies(
+            string searchPattern,
+            Func<string, bool>? filter = null
+        )
         {
-            IEnumerable<string> assembliesPaths = Directory.GetFiles(AppContext.BaseDirectory, searchPattern, SearchOption.AllDirectories)
+            IEnumerable<string> assembliesPaths = Directory
+                .GetFiles(AppContext.BaseDirectory, searchPattern, SearchOption.AllDirectories)
                 .Where(fileName => fileName.EndsWith(".dll") || fileName.EndsWith(".exe"));
+
+            var alreadyLoadedAssemblies = AppDomain
+                .CurrentDomain.GetAssemblies()
+                .Where(assembly => !string.IsNullOrEmpty(assembly.Location))
+                .ToDictionary(assembly => assembly.Location, StringComparer.OrdinalIgnoreCase);
 
             // List of returned assemblies path; to make it distinct cuz of Ref. assemblies.
             HashSet<string> returnedAssemblies = new();
@@ -29,6 +41,17 @@ namespace RJDev.Core.Reflection.AssemblyFinder
 
             foreach (var path in assembliesPaths)
             {
+                if (filter?.Invoke(path) == false)
+                {
+                    continue;
+                }
+
+                if (alreadyLoadedAssemblies.TryGetValue(path, out assembly))
+                {
+                    returnedAssemblies.Add(assembly.Location);
+                    yield return assembly;
+                }
+
                 try
                 {
 #if NETSTANDARD2_0 || NETSTANDARD2_1

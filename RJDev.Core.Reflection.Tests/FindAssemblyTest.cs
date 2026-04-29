@@ -32,5 +32,19 @@ namespace RJDev.Core.Reflection.Tests
                 name => Assert.Equal("RJDev.Core.Reflection.Tests", name)
             );
         }
+
+        [Fact]
+        public void FindAssembly_Filtered()
+        {
+            IAssemblyFinder af = new DefaultAssemblyFinder();
+            var assemblies = af.GetAssemblies(
+                    "RJDev.*",
+                    assemblyPath => !assemblyPath.EndsWith(".Tests.dll")
+                )
+                .Select(x => x.GetName().Name)
+                .OrderBy(x => x);
+
+            Assert.Collection(assemblies, name => Assert.Equal("RJDev.Core.Reflection", name));
+        }
     }
 }

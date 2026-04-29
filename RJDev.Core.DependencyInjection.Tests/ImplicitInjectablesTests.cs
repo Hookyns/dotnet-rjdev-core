@@ -16,6 +16,28 @@ namespace RJDev.Core.DependencyInjection.Tests
             public bool SomeOther => true;
         }
 
+        [Injectable]
+        private sealed class AsSelfService
+        {
+            public bool Some => true;
+        }
+
+        [Fact]
+        public void RegisteredAsSelf()
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddInjectables(
+                x => x.Implementation == typeof(AsSelfService),
+                Assembly.GetExecutingAssembly()
+            );
+            IServiceProvider provider = serviceCollection.BuildServiceProvider();
+
+            AsSelfService? someService = provider.GetService<AsSelfService>();
+
+            Assert.NotNull(someService);
+            Assert.IsType<AsSelfService>(someService);
+        }
+
         [Fact]
         public void BothInterfacesRegistered()
         {
@@ -45,7 +67,10 @@ namespace RJDev.Core.DependencyInjection.Tests
         private static IServiceProvider GetServiceProvider()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddInjectables(x => x.Implementation == typeof(FooService), Assembly.GetExecutingAssembly());
+            serviceCollection.AddInjectables(
+                x => x.Implementation == typeof(FooService),
+                Assembly.GetExecutingAssembly()
+            );
             return serviceCollection.BuildServiceProvider();
         }
 
@@ -64,7 +89,10 @@ namespace RJDev.Core.DependencyInjection.Tests
         public void InheritedInterfacesRegistered()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddInjectables(x => x.Implementation == typeof(ChildService), Assembly.GetExecutingAssembly());
+            serviceCollection.AddInjectables(
+                x => x.Implementation == typeof(ChildService),
+                Assembly.GetExecutingAssembly()
+            );
             IServiceProvider provider = serviceCollection.BuildServiceProvider();
 
             ISomeService? someService = provider.GetService<ISomeService>();

@@ -116,11 +116,7 @@ namespace RJDev.Core.Essentials.Results
         /// <param name="subject"></param>
         /// <param name="status"></param>
         /// <param name="errors"></param>
-        protected internal Result(
-            string? subject,
-            int? status,
-            IReadOnlyCollection<ResultError> errors
-        )
+        public Result(string? subject, int? status, IReadOnlyCollection<ResultError> errors)
             : base(subject, status, errors) { }
 
         /// <summary>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>RJDev.Core.Essentials</PackageId>
-    <Version>3.0.0-rc.1</Version>
+    <Version>3.0.0-rc.3</Version>
     <Authors>Roman Jámbor</Authors>
     <Company>Roman Jámbor</Company>
     <Description>Module of RJDev.Core library with application utilities.</Description>
